@@ -87,19 +87,23 @@ public class ListaEnlazada<T extends Comparable<T> > implements Lista<T> {
     }
 
     public boolean contains(Object objeto){
-        ultimoComparado = first;
         boolean resultado = false;
-        Nodo objetoAcomparar = first;
-        while (penultimoComparado != last && ultimoComparado.getValue() != objeto){
-            if (objeto == objetoAcomparar.getValue()){
-                resultado = true;
-                ultimoComparado = objetoAcomparar;
-               }
-            else{
-                penultimoComparado = objetoAcomparar;
-                objetoAcomparar = objetoAcomparar.getNextValue();
+        if (objeto == first.getValue()){
+            resultado = true;
+        }else {
+            ultimoComparado = first;
+            Nodo objetoAcomparar = first;
+            while (penultimoComparado != last && ultimoComparado.getValue() != objeto) {
+                if (objeto == objetoAcomparar.getValue()) {
+                    resultado = true;
+                    ultimoComparado = objetoAcomparar;
+                } else {
+                    penultimoComparado = objetoAcomparar;
+                    objetoAcomparar = objetoAcomparar.getNextValue();
+                }
             }
         }
+        penultimoComparado = null;
         return resultado;
     }
 
