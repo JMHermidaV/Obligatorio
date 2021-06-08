@@ -1,3 +1,5 @@
+package TADS;
+
 public class HashCerrado<K,V> implements HashTable<K,V> {
     private int sizeHash;
     private HashNode[] tableHash;

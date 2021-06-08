@@ -1,3 +1,5 @@
+package TADS;
+
 public class HashAbierto<K,V> implements HashTable<K,V> {
     private int sizeHash;
     private HashNode[] tableHash;
@@ -32,15 +34,18 @@ public class HashAbierto<K,V> implements HashTable<K,V> {
         HashNode node=null;
         int posicion=key.hashCode()%sizeHash;
 
-        if(tableHash[posicion].getKey()==key){
-            if (!tableHash[posicion].isDeleted()){
+        if(tableHash[posicion]==null){
+            //no existe un nodo con esa key (no se que habría q hacer acá)
+        }
+        else{
+            if(tableHash[posicion].getKey()==key){
                 node=tableHash[posicion];
-            }
-        }else if (tableHash[posicion]==null){
+            }else if (tableHash[posicion]==null){
 
-        }else {
-            while ((int i =0)<tableHash[posicion].size()){
+            }else {
+                while ((int i =0)<tableHash[posicion].size()){
 
+                }
             }
         }
 
