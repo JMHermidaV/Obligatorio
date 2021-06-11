@@ -13,34 +13,38 @@ public class HashCerrado<K,V> implements HashTable<K,V> {
     @Override
     public void put(K key, V value) {
         int positionInHashTable = key.hashCode() % sizeHash;
-        boolean agregado=false;
 
-        while(!agregado){
-            if (tableHash[positionInHashTable]==null || tableHash[positionInHashTable].isDeleted()){
-                tableHash[positionInHashTable]= new HashNode(key,value);
-                agregado=true;
-            }else {
-                positionInHashTable+=i;
-                i++;
-            }
+        if (tableHash[positionInHashTable]==null || tableHash[positionInHashTable].isDeleted()){
+            tableHash[positionInHashTable]= new HashNode(key,value);
+        }else {
+            positionInHashTable=this.funcion_colision(positionInHashTable);
+            tableHash[positionInHashTable]= new HashNode(key,value);
         }
 
+    }
+
+    private int funcion_colision(int position){
+        position+=1;
+        while (tableHash[position] !=null || !tableHash[position].isDeleted()) {
+            if (tableHash[position] != null || !tableHash[position].isDeleted()) {
+                position += 1;
+            }
+        }
+        return position;
     }
 
     @Override
     public HashNode get(K key) {
         HashNode node=null;
-        int posibleposicion=key.hashCode()%sizeHash;
+        int posibleposition=key.hashCode()%sizeHash;
         int j=1;
-        while (node==null || j!=i){
-            if(tableHash[posibleposicion].getKey()==key){
-                if (!tableHash[posibleposicion].isDeleted()){
-                    node=tableHash[posibleposicion];
+        while (node==null || j!=sizeHash){
+            if(tableHash[posibleposition].getKey()==key){
+                if (!tableHash[posibleposition].isDeleted()){
+                    node=tableHash[posibleposition];
                 }
             }else{
-                for(; j<i; j++){
-                    posibleposicion+=j;
-                }
+                posibleposition+=1;
             }
         }
         return node;
