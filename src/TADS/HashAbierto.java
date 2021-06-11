@@ -23,7 +23,7 @@ public class HashAbierto<K,V> implements HashTable<K,V> {
 
     @Override
     public HashNode get(K key) {
-        HashNode node=null;
+       /* HashNode node=null;
 
         int position=key.hashCode()%sizeHash;
 
@@ -43,9 +43,9 @@ public class HashAbierto<K,V> implements HashTable<K,V> {
                 }
             }
         }
+*/
 
-
-        return node;
+       return null; //va return node
     }
 
 

@@ -4,7 +4,7 @@ import com.sun.security.jgss.GSSUtil;
 
 import java.util.ArrayList;
 
-public class ListaEnlazada<T extends Comparable<T>,K > implements Lista<T> {
+public class ListaEnlazada<T extends Comparable<T>> implements Lista<T> {
 
     public Nodo first = null;
     private Nodo last = null;
