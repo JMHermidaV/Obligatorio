@@ -4,7 +4,7 @@ import TADS.ListaEnlazada;
 
 import java.util.List;
 
-public class MovieRating {
+public class MovieRating implements Comparable<MovieRating> {
 
     private String imbdTitled;
     private float weightedAverage;
@@ -52,5 +52,10 @@ public class MovieRating {
 
     public ListaEnlazada<Integer> getVotesRating() {
         return votesRating;
+    }
+
+    @Override
+    public int compareTo(MovieRating o) {
+        return 0;
     }
 }

@@ -26,7 +26,7 @@ public class CastMember {
     private int children;
     private ListaEnlazada<CauseOfDeath> causesOfDeath;
 
-    public CastMember(String imdbNameId, String name, String birthName, int height, String bio, Date birthDate, String birthState, String birthCountry, String birthCity, Date deathDate, String deathState, String deathCountry, String deathCity, String spousesString, int spouses, int divorces, int spousesWithChildren, int children) {
+    public CastMember(String imdbNameId, String name, String birthName, int height, String bio, Date birthDate, String birthState, String birthCountry, String birthCity, Date deathDate, String deathState, String deathCountry, String deathCity, String spousesString, int spouses, int divorces, int spousesWithChildren, int children, ListaEnlazada<CauseOfDeath> causesOfDeath) {
         this.imdbNameId = imdbNameId;
         this.name = name;
         this.birthName = birthName;
@@ -45,6 +45,7 @@ public class CastMember {
         this.divorces = divorces;
         this.spousesWithChildren = spousesWithChildren;
         this.children = children;
+        this.causesOfDeath = causesOfDeath;
     }
 
 
