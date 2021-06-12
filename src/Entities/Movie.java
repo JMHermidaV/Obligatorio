@@ -75,7 +75,7 @@ public class Movie {
         return datePublished;
     }
 
-    public ListaEnlazada<String> getGenre() {
+    public Lista<Género> getGenre() {
         return genre;
     }
 
@@ -83,7 +83,7 @@ public class Movie {
         return duration;
     }
 
-    public ListaEnlazada<String> getCountry() {
+    public Lista<String> getCountry() {
         return country;
     }
 
@@ -91,11 +91,11 @@ public class Movie {
         return language;
     }
 
-    public ListaEnlazada<String> getDirector() {
+    public Lista<String> getDirector() {
         return director;
     }
 
-    public ListaEnlazada<String> getWriter() {
+    public Lista<String> getWriter() {
         return writer;
     }
 
@@ -103,7 +103,7 @@ public class Movie {
         return productionCompany;
     }
 
-    public ListaEnlazada<String> getActors() {
+    public Lista<String> getActors() {
         return actors;
     }
 
