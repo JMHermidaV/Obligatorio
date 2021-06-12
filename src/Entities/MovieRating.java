@@ -56,6 +56,10 @@ public class MovieRating implements Comparable<MovieRating> {
 
     @Override
     public int compareTo(MovieRating o) {
-        return 0;
+        return compare(this.getWeightedAverage(),o.getWeightedAverage());
+    }
+
+    public static int compare (float x, float y) {
+        return Float.compare(x, y);
     }
 }

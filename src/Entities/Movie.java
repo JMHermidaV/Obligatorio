@@ -1,5 +1,6 @@
 package Entities;
 
+import TADS.Lista;
 import TADS.ListaEnlazada;
 
 import java.util.Date;
@@ -10,14 +11,14 @@ public class Movie {
     private String originalTitle;
     private int year;
     private Date datePublished;
-    private ListaEnlazada<String> genre;
+    private Lista<Género> genre;
     private int duration;
-    private ListaEnlazada<String> country;
+    private Lista<String> country;
     private String language;
-    private ListaEnlazada<String> director;
-    private ListaEnlazada<String> writer;
+    private Lista<String> director;
+    private Lista<String> writer;
     private String productionCompany;
-    private ListaEnlazada<String> actors;
+    private Lista<String> actors;
     private String description;
     private float avgVote;
     private int votes;
@@ -29,7 +30,7 @@ public class Movie {
     private float reviewFromCritics;
     private MovieRating rating;
 
-    public Movie(String imdbTitled, String title, String originalTitle, int year, Date datePublished, ListaEnlazada<String> genre, int duration, ListaEnlazada<String> country, String language, ListaEnlazada<String> director, ListaEnlazada<String> writer, String productionCompany, ListaEnlazada<String> actors, String description, float avgVote, int votes, String budget, String usaGrossIncome, String worldwideGrossIncome, float metaStore, float reviewFromUsers, float reviewFromCritics) {
+    public Movie(String imdbTitled, String title, String originalTitle, int year, Date datePublished, Lista<Género> genre, int duration, Lista<String> country, String language, Lista<String> director, Lista<String> writer, String productionCompany, Lista<String> actors, String description, float avgVote, int votes, String budget, String usaGrossIncome, String worldwideGrossIncome, float metaStore, float reviewFromUsers, float reviewFromCritics) {
         this.imdbTitled = imdbTitled;
         this.title = title;
         this.originalTitle = originalTitle;
@@ -74,6 +75,10 @@ public class Movie {
         return datePublished;
     }
 
+    public ListaEnlazada<String> getGenre() {
+        return genre;
+    }
+
     public int getDuration() {
         return duration;
     }
@@ -90,7 +95,7 @@ public class Movie {
         return director;
     }
 
-    public ListaEnlazada<String> getWiter() {
+    public ListaEnlazada<String> getWriter() {
         return writer;
     }
 
@@ -138,6 +143,13 @@ public class Movie {
         return reviewFromCritics;
     }
 
+    public MovieRating getRating() {
+        return rating;
+    }
+
+    public void setRating(MovieRating rating) {
+        this.rating = rating;
+    }
 
     public boolean equals(Object b) {
         boolean equals = false;
