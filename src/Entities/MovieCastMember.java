@@ -2,7 +2,7 @@ package Entities;
 
 import TADS.ListaEnlazada;
 
-public class MovieCastMember {
+public class MovieCastMember implements Comparable<MovieCastMember> {
     private String imdbTitled;
     private int ordering;
     private String imdbName;
