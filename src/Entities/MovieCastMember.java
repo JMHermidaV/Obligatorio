@@ -1,5 +1,6 @@
 package Entities;
 
+import TADS.Lista;
 import TADS.ListaEnlazada;
 
 public class MovieCastMember implements Comparable<MovieCastMember> {
@@ -8,9 +9,9 @@ public class MovieCastMember implements Comparable<MovieCastMember> {
     private String imdbName;
     private String catogory;
     private String job;
-    private ListaEnlazada<String> characters;
+    private Lista<String> characters;
 
-    public MovieCastMember(String imdbTitled, int ordering, String imdbName, String catogory, String job, ListaEnlazada<String> characters) {
+    public MovieCastMember(String imdbTitled, int ordering, String imdbName, String catogory, String job, Lista<String> characters) {
         this.imdbTitled = imdbTitled;
         this.ordering = ordering;
         this.imdbName = imdbName;
@@ -39,7 +40,12 @@ public class MovieCastMember implements Comparable<MovieCastMember> {
         return job;
     }
 
-    public ListaEnlazada<String> getCharacters() {
+    public Lista<String> getCharacters() {
         return characters;
+    }
+
+    @Override
+    public int compareTo(MovieCastMember o) {
+        return 0;
     }
 }

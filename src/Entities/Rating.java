@@ -1,6 +1,6 @@
 package Entities;
 
-public class Rating {
+public class Rating implements Comparable<Rating> {
 
     private float NumberVotes;
     private float AverageRating;
@@ -24,5 +24,10 @@ public class Rating {
 
     public void setAverageRating(float averageRating) {
         AverageRating = averageRating;
+    }
+
+    @Override
+    public int compareTo(Rating o) {
+        return 0;
     }
 }

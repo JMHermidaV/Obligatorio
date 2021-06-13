@@ -1,5 +1,6 @@
 package Entities;
 
+import TADS.Lista;
 import TADS.ListaEnlazada;
 
 import java.util.Date;
@@ -24,9 +25,9 @@ public class CastMember {
     private int divorces;
     private int spousesWithChildren;
     private int children;
-    private ListaEnlazada<CauseOfDeath> causesOfDeath;
+    private Lista<CauseOfDeath> causesOfDeath;
 
-    public CastMember(String imdbNameId, String name, String birthName, int height, String bio, Date birthDate, String birthState, String birthCountry, String birthCity, Date deathDate, String deathState, String deathCountry, String deathCity, String spousesString, int spouses, int divorces, int spousesWithChildren, int children, ListaEnlazada<CauseOfDeath> causesOfDeath) {
+    public CastMember(String imdbNameId, String name, String birthName, int height, String bio, Date birthDate, String birthState, String birthCountry, String birthCity, Date deathDate, String deathState, String deathCountry, String deathCity, String spousesString, int spouses, int divorces, int spousesWithChildren, int children, Lista<CauseOfDeath> causesOfDeath) {
         this.imdbNameId = imdbNameId;
         this.name = name;
         this.birthName = birthName;
@@ -137,7 +138,7 @@ public class CastMember {
         return children;
     }
 
-    public ListaEnlazada<CauseOfDeath> getCausesOfDeath() {
+    public Lista<CauseOfDeath> getCausesOfDeath() {
         return causesOfDeath;
     }
 

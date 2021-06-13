@@ -2,6 +2,7 @@ package Entities;
 
 import TADS.*;
 
+import javax.xml.bind.SchemaOutputResolver;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,8 +20,9 @@ public class CSVReaderInJava {
 
     public static void main(String[] args) {
 
-        HashTable<Integer, CastMember> CastMembersHash = readCastMembersFromCSV("IMDb names.txt");
-        HashTable<Integer, Movie> MoviesHash = readMoviesFromCSV("IMDb movies.txt");
+        HashTable<Integer, CastMember> CastMembersHash = readCastMembersFromCSV("IMDb names.csv");
+        HashTable<Integer, Movie> MoviesHash = readMoviesFromCSV("IMDb movies.csv");
+        Lista<MovieCastMember>  MovieCastMemberList = readMovieCastMembersFromCSV("IMDb title_principals");
         MyHeap<MovieRating> MovieRatingsHeapMax = readMovieRatingsFromCSV("IMDb ratings.txt");
 
     }
@@ -29,12 +31,12 @@ public class CSVReaderInJava {
         HashTable<Integer, CastMember> CastMembersHash = new HashCerrado<>(396953);
         Path pathToFile = Paths.get(fileName);
         try (BufferedReader br = Files.newBufferedReader(pathToFile,
-                StandardCharsets.US_ASCII)) {
+                StandardCharsets.UTF_8)) {
             String line = br.readLine();            // leo la primera linea
-
+            line = br.readLine();            // leo la prox pq la primera son títulos
 
             while (line != null) {
-                String[] attributes = line.split(",");
+                String[] attributes = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
                 CastMember CastMember = createCastMember(attributes);
                 CastMembersHash.put(Integer.parseInt(CastMember.getImdbNameId().substring(2,8)), CastMember);
                 line = br.readLine(); //Leo la próxima linea (si llego al final me da null)
@@ -48,12 +50,12 @@ public class CSVReaderInJava {
         HashTable<Integer, Movie> MoviesHash = new HashCerrado<>(114479);
         Path pathToFile = Paths.get(fileName);
         try (BufferedReader br = Files.newBufferedReader(pathToFile,
-                StandardCharsets.US_ASCII)) {
+                StandardCharsets.UTF_8)) {
             String line = br.readLine();            // leo la primera linea
-
+            line = br.readLine();            // leo la prox pq la primera son títulos
 
             while (line != null) {
-                String[] attributes = line.split(",");
+                String[] attributes = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
                 Movie movie = createMovie(attributes);
                 MoviesHash.put(Integer.parseInt(movie.getImdbTitled().substring(2,8)), movie);
                 line = br.readLine(); //Leo la próxima linea (si llego al final me da null)
@@ -64,16 +66,36 @@ public class CSVReaderInJava {
         return MoviesHash;
     }
 
+    private static Lista<MovieCastMember> readMovieCastMembersFromCSV(String fileName){
+        Lista<MovieCastMember> movieCastMemberList = new ListaEnlazada<>();
+        Path pathToFile = Paths.get(fileName);
+        try (BufferedReader br = Files.newBufferedReader(pathToFile,
+                StandardCharsets.UTF_8)) {
+            String line = br.readLine();            // leo la primera linea
+            line = br.readLine();            // leo la prox pq la primera son títulos
+
+            while (line != null) {
+                String[] attributes = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+                MovieCastMember movieCastMember = createMovieCastMember(attributes);
+                movieCastMemberList.add(movieCastMember);
+                line = br.readLine(); //Leo la próxima linea (si llego al final me da null)
+            }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        return movieCastMemberList;
+    }
+
     private static MyHeap<MovieRating> readMovieRatingsFromCSV(String fileName){
         MyHeap<MovieRating> MovieRatingsHeapMax = new MyHeapImpl<>(85856, 1);
         Path pathToFile = Paths.get(fileName);
         try (BufferedReader br = Files.newBufferedReader(pathToFile,
-                StandardCharsets.US_ASCII)) {
+                StandardCharsets.UTF_8)) {
             String line = br.readLine();            // leo la primera linea
-
+            line = br.readLine();            // leo la prox pq la primera son títulos
 
             while (line != null) {
-                String[] attributes = line.split(",");
+                String[] attributes = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
                 MovieRating movieRating = createMovieRating(attributes);
                 MovieRatingsHeapMax.insert(movieRating);
                 line = br.readLine(); //Leo la próxima linea (si llego al final me da null)
@@ -85,7 +107,7 @@ public class CSVReaderInJava {
     }
 
     private static CastMember createCastMember(String[] datos){
-        CauseOfDeath[] causas2 = new CauseOfDeath[0];
+        Lista<CauseOfDeath> causas2 = new ListaEnlazada();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat format2 = new SimpleDateFormat("MM/dd/yyyy");
         Date birthDate = null;
@@ -102,7 +124,7 @@ public class CSVReaderInJava {
             String[] causas = datos[11].split("and");
             for (int i=0;i<causas.length;i++){
                 CauseOfDeath causeofdeath = new CauseOfDeath(causas[i]);
-                causas2[i] = causeofdeath;
+                causas2.add(causeofdeath);
             }
         }
         if(datos[7]!=null){
@@ -111,6 +133,13 @@ public class CSVReaderInJava {
         if(datos[10]!=null){
             lugarFallecimiento = datos[10].split(",");
         }
+        System.out.println(datos.length);
+        System.out.println(lugarNacimiento.length);
+        for(int i = 0; i<datos.length;i++){
+            System.out.println(datos[i]);
+        }
+
+
 
         CastMember cast= new CastMember(datos[0], datos[1], datos[2], Integer.parseInt(datos[3]), datos[4], birthDate, lugarNacimiento[0], lugarNacimiento[2], lugarNacimiento[1], deathDate, lugarFallecimiento[0], lugarFallecimiento[2], lugarFallecimiento[1], datos[12], Integer.parseInt(datos[13]), Integer.parseInt(datos[14]), Integer.parseInt(datos[15]), Integer.parseInt(datos[16]), causas2);
         return cast;
@@ -150,15 +179,58 @@ public class CSVReaderInJava {
         return movie;
     }
 
+    private static MovieCastMember createMovieCastMember(String[] datos){
+        Lista<String> characters = null;
+        if (datos[5]!=null){
+            characters = createList(datos[5], ","); //REVISAR SEPARADOR
+        }
+
+        //imdb_title_id,ordering,imdb_name_id,category,job,characters
+        MovieCastMember mvcm = new MovieCastMember(datos[0], Integer.parseInt(datos[1]),datos[2],datos[3],datos[4],characters);
+        return mvcm;
+    }
+
     private static MovieRating createMovieRating(String[] datos){
         Lista<Integer> votesRating = new ListaEnlazada();
+        Lista<Rating> allGenders = new ListaEnlazada();
+        Lista<Rating> males = new ListaEnlazada();
+        Lista<Rating> females = new ListaEnlazada();
+        Rating top1000 = createRating(datos[43],datos[44]);
+        Rating us = createRating(datos[45],datos[46]);
+        Rating nonUs = createRating(datos[47],datos[48]);
         for (int i = 5; i<15; i++){
             if(datos[i]!=null){
                 votesRating.add(Integer.parseInt(datos[i]));
             }
         }
-        imdb_title_id,weighted_average_vote,total_votes,mean_vote,median_vote,votes_10,votes_9,votes_8,votes_7,votes_6,votes_5,votes_4,votes_3,votes_2,votes_1,allgenders_0age_avg_vote,allgenders_0age_votes,allgenders_18age_avg_vote,allgenders_18age_votes,allgenders_30age_avg_vote,allgenders_30age_votes,allgenders_45age_avg_vote,allgenders_45age_votes,males_allages_avg_vote,males_allages_votes,males_0age_avg_vote,males_0age_votes,males_18age_avg_vote,males_18age_votes,males_30age_avg_vote,males_30age_votes,males_45age_avg_vote,males_45age_votes,females_allages_avg_vote,females_allages_votes,females_0age_avg_vote,females_0age_votes,females_18age_avg_vote,females_18age_votes,females_30age_avg_vote,females_30age_votes,females_45age_avg_vote,females_45age_votes,top1000_voters_rating,top1000_voters_votes,us_voters_rating,us_voters_votes,non_us_voters_rating,non_us_voters_votes
-        MovieRating rating = new MovieRating(datos[0], Float.parseFloat(datos[1]), Integer.parseInt(datos[2]), Float.parseFloat(datos[3]), Float.parseFloat(datos[4]), votesRating, List<Rating>[] allGenders, List<Rating>[] males, List<Rating>[] females, List<Rating>[] top1000, List<Rating>[] us, List<Rating>[] nonUs);
+        for (int i = 15; i<23; i=i+2){
+            if(datos[i]!=null && datos[i+1]!=null){
+                Rating allGendersRating = new Rating(Float.parseFloat(datos[i+1]),Float.parseFloat(datos[i]));
+                allGenders.add(allGendersRating);
+            }
+        }
+        for (int i = 23; i<33; i=i+2){
+            if(datos[i]!=null && datos[i+1]!=null){
+                Rating maleRating = new Rating(Float.parseFloat(datos[i+1]),Float.parseFloat(datos[i]));
+                males.add(maleRating);
+            }
+        }
+        for (int i = 33; i<43; i=i+2){
+            if(datos[i]!=null && datos[i+1]!=null){
+                Rating femaleRating = new Rating(Float.parseFloat(datos[i+1]),Float.parseFloat(datos[i]));
+                females.add(femaleRating);
+            }
+        }
+
+        MovieRating movierating = new MovieRating(datos[0], Float.parseFloat(datos[1]), Integer.parseInt(datos[2]), Float.parseFloat(datos[3]), Float.parseFloat(datos[4]), votesRating, allGenders,  males, females, top1000, us, nonUs);
+        return movierating;
+    }
+
+    private static Rating createRating(String avg, String votes){
+        Rating rating = null;
+        if (avg!=null && votes!=null) {
+            rating = new Rating(Float.parseFloat(votes), Float.parseFloat(avg));
+        }
         return rating;
     }
     private static Lista<String> createList(String dato, String separador) {
