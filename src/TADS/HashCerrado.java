@@ -2,7 +2,7 @@ package TADS;
 
 public class HashCerrado<K,V> implements HashTable<K,V> {
     private int sizeHash;
-    private HashNode[] tableHash;
+    private HashNode<K,V>[] tableHash;
     private int i=0;
     private float loadFactor = 0;
 

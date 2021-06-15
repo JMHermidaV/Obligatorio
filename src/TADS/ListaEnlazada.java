@@ -1,12 +1,13 @@
 package TADS;
 
+import Entities.MovieCastMember;
 import com.sun.security.jgss.GSSUtil;
 
 import java.util.ArrayList;
 
 public class ListaEnlazada<T extends Comparable<T>> implements Lista<T> {
 
-    public Nodo first = null;
+    public MovieCastMember first = null;
     private Nodo last = null;
     private int size = 0;
     private Nodo ultimoComparado = null;
