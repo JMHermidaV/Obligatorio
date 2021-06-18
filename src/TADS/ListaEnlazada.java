@@ -1,13 +1,12 @@
 package TADS;
 
-import Entities.MovieCastMember;
 import com.sun.security.jgss.GSSUtil;
 
 import java.util.ArrayList;
 
 public class ListaEnlazada<T extends Comparable<T>> implements Lista<T> {
 
-    public MovieCastMember first = null;
+    public Nodo first = null;
     private Nodo last = null;
     private int size = 0;
     private Nodo ultimoComparado = null;
@@ -23,7 +22,7 @@ public class ListaEnlazada<T extends Comparable<T>> implements Lista<T> {
         }else{
             last.setNextValue(nuevo);
             last = nuevo;
-    }
+        }
 
     }
 
@@ -54,7 +53,7 @@ public class ListaEnlazada<T extends Comparable<T>> implements Lista<T> {
                         last = anterior;
                     }
                     else{
-                    anterior.setNextValue(sacado.getNextValue());
+                        anterior.setNextValue(sacado.getNextValue());
                     }
                 }
                 else{
@@ -62,7 +61,7 @@ public class ListaEnlazada<T extends Comparable<T>> implements Lista<T> {
                     sacado = sacado.getNextValue();
                 }
 
-    }}}
+            }}}
 
     @Override
     public Object get(int position) {
@@ -77,7 +76,7 @@ public class ListaEnlazada<T extends Comparable<T>> implements Lista<T> {
         else{
             devolver = first;
             for (int i = 1; i<position; i++){
-                    devolver = devolver.getNextValue();
+                devolver = devolver.getNextValue();
             }
             devolvero = devolver.getValue();
         }

@@ -25,12 +25,12 @@ public class Movie {
     private String budget;
     private String usaGrossIncome;
     private String worldwideGrossIncome;
-    private float metaStore;
+    private Float metaStore;
     private float reviewFromUsers;
     private float reviewFromCritics;
     private MovieRating rating;
 
-    public Movie(String imdbTitled, String title, String originalTitle, int year, Date datePublished, Lista<Género> genre, int duration, Lista<String> country, String language, Lista<String> director, Lista<String> writer, String productionCompany, Lista<String> actors, String description, float avgVote, int votes, String budget, String usaGrossIncome, String worldwideGrossIncome, float metaStore, float reviewFromUsers, float reviewFromCritics) {
+    public Movie(String imdbTitled, String title, String originalTitle, int year, Date datePublished, Lista<Género> genre, int duration, Lista<String> country, String language, Lista<String> director, Lista<String> writer, String productionCompany, Lista<String> actors, String description, float avgVote, int votes, String budget, String usaGrossIncome, String worldwideGrossIncome, Float metaStore, float reviewFromUsers, float reviewFromCritics) {
         this.imdbTitled = imdbTitled;
         this.title = title;
         this.originalTitle = originalTitle;
@@ -131,7 +131,7 @@ public class Movie {
         return worldwideGrossIncome;
     }
 
-    public float getMetaStore() {
+    public Float getMetaStore() {
         return metaStore;
     }
 
