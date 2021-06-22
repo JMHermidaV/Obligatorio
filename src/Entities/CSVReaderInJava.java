@@ -9,9 +9,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.io.File;
+import java.util.Iterator;
 
 public class CSVReaderInJava {
 
@@ -21,7 +21,7 @@ public class CSVReaderInJava {
         long tiempoInicial=System.currentTimeMillis();
         //HashTable<Integer, CastMember> CastMembersHash = readCastMembersFromCSV("IMDb names.csv");
         HashTable<Integer, Movie> MoviesHash = readMoviesFromCSV("IMDb movies.csv");
-        Lista<MovieCastMember>  MovieCastMemberList = readMovieCastMembersFromCSV("IMDb title_principals.csv");
+        HashTable<Integer, Lista<MovieCastMember>>  MovieCastMemberHash = readMovieCastMembersFromCSV("IMDb title_principals.csv");
         MyHeap<MovieRating> MovieRatingsHeapMax = readMovieRatingsFromCSV("IMDb ratings.csv");
         long tiempoFinal=System.currentTimeMillis();
         long tiempoTotal=tiempoFinal-tiempoInicial;
@@ -32,6 +32,7 @@ public class CSVReaderInJava {
 
     private static HashTable<Integer, CastMember> readCastMembersFromCSV(String fileName){
         HashTable<Integer, CastMember> CastMembersHash = new HashCerrado<>(396953);
+
         /*Path pathToFile = Paths.get(fileName);
         try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)) {
             String line = br.readLine();            // leo la primera linea
@@ -46,7 +47,7 @@ public class CSVReaderInJava {
         }catch (IOException e) {
             e.printStackTrace();
         }
-        return CastMembersHash;*/
+        return CastMembersHash;
 
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("IMDb names.csv"), "UTF-8"));
@@ -64,7 +65,7 @@ public class CSVReaderInJava {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         return CastMembersHash;
     }
     private static HashTable<Integer, Movie> readMoviesFromCSV(String fileName){
@@ -86,8 +87,8 @@ public class CSVReaderInJava {
         return MoviesHash;
     }
 
-    private static Lista<MovieCastMember> readMovieCastMembersFromCSV(String fileName){
-        Lista<MovieCastMember> movieCastMemberList = new ListaEnlazada<>();
+    private static HashTable<Integer, Lista<MovieCastMember>> readMovieCastMembersFromCSV(String fileName){
+        HashTable<Integer, Lista<MovieCastMember>> movieCastMemberHash = new HashCerrado<>(114479);
         Path pathToFile = Paths.get(fileName);
         try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)) {
             String line = br.readLine();            // leo la primera linea
@@ -96,13 +97,19 @@ public class CSVReaderInJava {
             while (line != null) {
                 String[] attributes = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
                 MovieCastMember movieCastMember = createMovieCastMember(attributes);
-                movieCastMemberList.add(movieCastMember);
+                if (movieCastMemberHash.get(Integer.parseInt(movieCastMember.getImdbTitled().substring(2,8)))==null){
+                    Lista<MovieCastMember> listaMovieCastMembers = new ListaEnlazada<>();
+                    listaMovieCastMembers.add(movieCastMember);
+                    movieCastMemberHash.put(Integer.parseInt(movieCastMember.getImdbTitled().substring(2,8)),listaMovieCastMembers);
+                }else{
+                    movieCastMemberHash.get(Integer.parseInt(movieCastMember.getImdbTitled().substring(2,8))).getValue().add(movieCastMember);
+                }
                 line = br.readLine(); //Leo la próxima linea (si llego al final me da null)
             }
         }catch (IOException e) {
             e.printStackTrace();
         }
-        return movieCastMemberList;
+        return movieCastMemberHash;
     }
 
     private static MyHeap<MovieRating> readMovieRatingsFromCSV(String fileName){

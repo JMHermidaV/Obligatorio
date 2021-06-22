@@ -18,15 +18,15 @@ public class HashCerradoTest {
 
 
         assertEquals("valor1", miHash.get(1).getValue());
-        assertEquals(1, miHash.get(1).getKey());
+        assertEquals((Integer)1, miHash.get(1).getKey());
         assertEquals("valor2", miHash.get(2).getValue());
-        assertEquals(2, miHash.get(2).getKey());
+        assertEquals((Integer)2, miHash.get(2).getKey());
         assertEquals("valor3", miHash.get(3).getValue());
-        assertEquals(3, miHash.get(3).getKey());
+        assertEquals((Integer)3, miHash.get(3).getKey());
         assertEquals("valor4", miHash.get(4).getValue());
-        assertEquals(4, miHash.get(4).getKey());
+        assertEquals((Integer)4, miHash.get(4).getKey());
         assertEquals("valor12", miHash.get(12).getValue());
-        assertEquals(12, miHash.get(12).getKey());
+        assertEquals((Integer)12, miHash.get(12).getKey());
 
         miHash.remove(1);
         assertNull(miHash.get(1));
@@ -35,10 +35,10 @@ public class HashCerradoTest {
         assertNull(miHash.get(2));
 
         assertEquals("valor12", miHash.get(12).getValue());
-        assertEquals(12, miHash.get(12).getKey());
+        assertEquals((Integer)12, miHash.get(12).getKey());
 
         miHash.put(22,"valor22");
-        assertEquals(22, miHash.get(22).getKey());
+        assertEquals((Integer)22, miHash.get(22).getKey());
 
         //NUESTRA FUNCIÓN NO CREA OTRA TABLA SI SE ALCANZA EL LF = 0.75, SIMPLEMENTE NO AGREGA NADA
     }

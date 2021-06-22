@@ -13,7 +13,7 @@ public class main {
     private MyHeapImpl<MovieRating> movieRating;
     private ListaEnlazada<CauseOfDeath> causeOfDeath;
 
-    public int menuPrincipal(){
+    /*public int menuPrincipal(){
         Scanner myObj=new Scanner(System.in);
         System.out.println("Menu Principal");
         System.out.println("Seleccione la opcion que desee:");
@@ -53,7 +53,7 @@ public class main {
         }
 
 
-    }
+    }*/
 
 
 }

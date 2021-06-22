@@ -24,12 +24,12 @@ public class ListaEnlazadaTest {
         assertTrue(MiLista.contains(23));
         assertFalse(MiLista.contains(7));
 
-        assertEquals(23, MiLista.get(2));
-        assertEquals(4, MiLista.get(1));
+        assertEquals((Integer)23, MiLista.get(2));
+        assertEquals((Integer)4, MiLista.get(1));
 
         MiLista.remove(2);
         assertEquals(3,MiLista.size());
-        assertEquals(1, MiLista.get(2));
+        assertEquals((Integer)1, MiLista.get(2));
         assertFalse(MiLista.contains(23));
     }
 }

@@ -41,17 +41,24 @@ public class HashCerrado<K,V> implements HashTable<K,V> {
     @Override
     public HashNode get(K key) {
         HashNode node=null;
-        int posibleposition=key.hashCode()%sizeHash;
-        while (node==null && posibleposition!=sizeHash){
-            if(tableHash[posibleposition].getKey()==key){
-                if (!tableHash[posibleposition].isDeleted()){
-                    node=tableHash[posibleposition];
+        int posibleposition = key.hashCode()%sizeHash;
+        if(tableHash[posibleposition] != null){
+            while (node==null && posibleposition!=sizeHash){
+                if(tableHash[posibleposition] != null) {
+                    if (tableHash[posibleposition].getKey() == key) {
+                        if (!tableHash[posibleposition].isDeleted()) {
+                            node = tableHash[posibleposition];
+                        } else {
+                            posibleposition = sizeHash;
+                        }
+                    } else {
+                        posibleposition += 1;
+                    }
+                }else{
+                    return null;
                 }
-                else{
-                    posibleposition = sizeHash;
-                }
-            }else{
-                posibleposition+=1;
+            }if(posibleposition==sizeHash){
+                return null;
             }
         }
         return node;
