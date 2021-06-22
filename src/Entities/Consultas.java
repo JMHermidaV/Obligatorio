@@ -25,26 +25,27 @@ public class Consultas {
     }
 
     public void consultaUno(HashCerrado<String,CastMember> castMember, ListaEnlazada<MovieCastMember> movieCastMember){
-        String[][] topFive=new String[5][2];
-        MovieCastMember movie= movieCastMember.first;
+        long tiempoInicial=System.currentTimeMillis();
+        MovieCastMember movie= movieCastMember.first.getValue();
         while (movie!=null){
-            if (movie.getJob()=="actor"|| movie.getJob()=="actriz") {
-                HashNode castnode =castMember.get(movie.getImdbName());
-                CastMember cast= castnode.getValue();
+            if (movie.getCatogory()=="actor"|| movie.getCatogory()=="actress") {
+                HashNode<String,CastMember> castnode =castMember.get(movie.getImdbName());
+                castnode.getValue().setApariciones();
+
+
+
             }
         }
 
 
 
-        System.out.println("Nombre actor/actriz:"+ topFive[0][0]+"Cantidad de apariciones:"+topFive[0][1]);
-        System.out.println("Nombre actor/actriz:"+ topFive[1][0]+"Cantidad de apariciones:"+topFive[1][1]);
-        System.out.println("Nombre actor/actriz:"+ topFive[2][0]+"Cantidad de apariciones:"+topFive[2][1]);
-        System.out.println("Nombre actor/actriz:"+ topFive[3][0]+"Cantidad de apariciones:"+topFive[3][1]);
-        System.out.println("Nombre actor/actriz:"+ topFive[4][0]+"Cantidad de apariciones:"+topFive[4][1]);
-        System.out.println("Tiempo de ejecucion de la consulta:");
+        long tiempoFinal=System.currentTimeMillis();
+        long tiempo=tiempoFinal-tiempoInicial;
+        System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);
     }
 
     public void consultaDos(){
+        long tiempoInicial=System.currentTimeMillis();
         String[][] topFive=new String[5][2];
 
         System.out.println("Causa de muerte:"+ topFive[0][0]+"Cantidad de personas:"+topFive[0][1]);
@@ -52,10 +53,13 @@ public class Consultas {
         System.out.println("Causa de muerte:"+ topFive[2][0]+"Cantidad de personas:"+topFive[2][1]);
         System.out.println("Causa de muerte:"+ topFive[3][0]+"Cantidad de personas:"+topFive[3][1]);
         System.out.println("Causa de muerte:"+ topFive[4][0]+"Cantidad de personas:"+topFive[4][1]);
-        System.out.println("Tiempo de ejecucion de la consulta:");
+        long tiempoFinal=System.currentTimeMillis();
+        long tiempo=tiempoFinal-tiempoInicial;
+        System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);
     }
 
     public void consultaTres(){
+        long tiempoInicial=System.currentTimeMillis();
         String[][] top=new String[14][3];
 
         for (int i=0;i<top.length;i++){
@@ -63,11 +67,14 @@ public class Consultas {
                 System.out.println("Id película:"+top[i][0]+"Nombre:"+top[i][1]+"Altura promedio de actores:"+top[i][2]);
             }
         }
-        System.out.println("Tiempo de ejecución de la consulta:");
+        long tiempoFinal=System.currentTimeMillis();
+        long tiempo=tiempoFinal-tiempoInicial;
+        System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);
 
     }
 
     public void consultaCuatro(){
+        long tiempoInicial=System.currentTimeMillis();
         int[] actores=new int[2];
         int[] actrices=new int[2];
 
@@ -79,11 +86,14 @@ public class Consultas {
         System.out.println("Año:"+actrices[0]);
         System.out.println("Cantidad"+actrices[1]);
 
-        System.out.println("Tiempo de ejecucion de la consulta:");
+        long tiempoFinal=System.currentTimeMillis();
+        long tiempo=tiempoFinal-tiempoInicial;
+        System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);
 
     }
 
     public void consultaCinco(){
+        long tiempoInicial=System.currentTimeMillis();
         String[][] topTen=new String[10][2];
 
         System.out.println("Genero pelicula:"+ topTen[0][0]+"Cantidad:"+topTen[0][1]);
@@ -97,7 +107,9 @@ public class Consultas {
         System.out.println("Genero pelicula:"+ topTen[8][0]+"Cantidad:"+topTen[8][1]);
         System.out.println("Genero pelicula:"+ topTen[9][0]+"Cantidad:"+topTen[9][1]);
 
-        System.out.println("Tiempo de ejecucion de la consulta:");
+        long tiempoFinal=System.currentTimeMillis();
+        long tiempo=tiempoFinal-tiempoInicial;
+        System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);
 
     }
 

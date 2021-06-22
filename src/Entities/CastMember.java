@@ -26,6 +26,7 @@ public class CastMember {
     private int spousesWithChildren;
     private int children;
     private Lista<CauseOfDeath> causesOfDeath;
+    private int apariciones=0;
 
     public CastMember(String imdbNameId, String name, String birthName, int height, String bio, Date birthDate, String birthState, String birthCountry, String birthCity, Date deathDate, String deathState, String deathCountry, String deathCity, String spousesString, int spouses, int divorces, int spousesWithChildren, int children, Lista<CauseOfDeath> causesOfDeath) {
         this.imdbNameId = imdbNameId;
@@ -154,5 +155,13 @@ public class CastMember {
         }
 
         return equals;
+    }
+
+    public int getApariciones() {
+        return apariciones;
+    }
+
+    public void setApariciones() {
+        this.apariciones +=1;
     }
 }

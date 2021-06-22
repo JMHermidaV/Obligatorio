@@ -6,15 +6,15 @@ import java.util.ArrayList;
 
 public class ListaEnlazada<T extends Comparable<T>> implements Lista<T> {
 
-    public Nodo first = null;
-    private Nodo last = null;
+    public Nodo<T> first = null;
+    private Nodo<T> last = null;
     private int size = 0;
-    private Nodo ultimoComparado = null;
-    private Nodo penultimoComparado = null;
+    private Nodo<T> ultimoComparado = null;
+    private Nodo<T> penultimoComparado = null;
 
     @Override
     public void add(T value) {
-        Nodo nuevo = new Nodo(value);
+        Nodo<T> nuevo = new Nodo<>(value);
         size++;
         if (first == null){
             first = nuevo;
@@ -40,8 +40,8 @@ public class ListaEnlazada<T extends Comparable<T>> implements Lista<T> {
         }
         else{
             size--;
-            Nodo anterior = null;
-            Nodo sacado = first;
+            Nodo<T> anterior = null;
+            Nodo<T> sacado = first;
             for (int i = 1; i<=position; i++){
                 if (i==position){
                     if (position == 1){
@@ -64,9 +64,9 @@ public class ListaEnlazada<T extends Comparable<T>> implements Lista<T> {
             }}}
 
     @Override
-    public Object get(int position) {
-        Object devolvero = null;
-        Nodo devolver = null;
+    public T get(int position) {
+        T devolvero = null;
+        Nodo<T> devolver = null;
         if (position>size){
             System.out.println("No existe esa posición");
         }
@@ -87,13 +87,13 @@ public class ListaEnlazada<T extends Comparable<T>> implements Lista<T> {
         return size;
     }
 
-    public boolean contains(Object objeto){
+    public boolean contains(T objeto){
         boolean resultado = false;
         if (objeto == first.getValue()){
             resultado = true;
         }else {
             ultimoComparado = first;
-            Nodo objetoAcomparar = first;
+            Nodo<T> objetoAcomparar = first;
             while (penultimoComparado != last && ultimoComparado.getValue() != objeto) {
                 if (objeto == objetoAcomparar.getValue()) {
                     resultado = true;
@@ -109,7 +109,7 @@ public class ListaEnlazada<T extends Comparable<T>> implements Lista<T> {
     }
 
     public void addFirst(T value){
-        Nodo nuevo = new Nodo(value);
+        Nodo<T> nuevo = new Nodo(value);
         size++;
         if (first == null){
             first = nuevo;
@@ -136,7 +136,7 @@ public class ListaEnlazada<T extends Comparable<T>> implements Lista<T> {
         return objetos;
     }*/
 
-    public void intercambiar(Object o, int direccion){
+    public void intercambiar(T o, int direccion){
         if(contains(o)){
             if (direccion==1){
                 if (ultimoComparado.getNextValue() == null){

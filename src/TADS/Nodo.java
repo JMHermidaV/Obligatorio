@@ -3,7 +3,7 @@ package TADS;
 public class Nodo<T extends Comparable<T> > {
 
     private T value;
-    private Nodo nextValue;
+    private Nodo<T> nextValue;
 
     public Nodo(T value) {
         this.value = value;
@@ -18,11 +18,11 @@ public class Nodo<T extends Comparable<T> > {
         this.value = value;
     }
 
-    public Nodo getNextValue() {
+    public Nodo<T> getNextValue() {
         return nextValue;
     }
 
-    public void setNextValue(Nodo nextValue) {
+    public void setNextValue(Nodo<T> nextValue) {
         this.nextValue = nextValue;
     }
 }
