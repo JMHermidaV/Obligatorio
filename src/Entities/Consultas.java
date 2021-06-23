@@ -32,20 +32,44 @@ public class Consultas {
                 HashNode<String,CastMember> castnode =castMember.get(movie.getImdbName());
                 castnode.getValue().setApariciones();
 
-
-
             }
+            movie=movieCastMember.first.getNextValue().getValue();
         }
 
+        //Termino de recorrer y ordeno el hash por apariciones
+        //Saco las 5 primeras
+
+        String[][] topFive=new String[5][2];
 
 
+        System.out.println("Nombre actor/actriz:"+ topFive[0][0]+"Cantidad de apariciones:"+topFive[0][1]);
+        System.out.println("Nombre actor/actriz:"+ topFive[1][0]+"Cantidad de apariciones:"+topFive[1][1]);
+        System.out.println("Nombre actor/actriz:"+ topFive[2][0]+"Cantidad de apariciones:"+topFive[2][1]);
+        System.out.println("Nombre actor/actriz:"+ topFive[3][0]+"Cantidad de apariciones:"+topFive[3][1]);
+        System.out.println("Nombre actor/actriz:"+ topFive[4][0]+"Cantidad de apariciones:"+topFive[4][1]);
         long tiempoFinal=System.currentTimeMillis();
         long tiempo=tiempoFinal-tiempoInicial;
         System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);
     }
 
-    public void consultaDos(){
+    public void consultaDos(HashCerrado<String,CastMember> castMember, ListaEnlazada<MovieCastMember> movieCastMember){
         long tiempoInicial=System.currentTimeMillis();
+
+        MovieCastMember movie= movieCastMember.first.getValue();
+        while (movie!=null){
+            if (movie.getCatogory()=="actor"|| movie.getCatogory()=="actress") {
+                CastMember cast = (CastMember) castMember.get(movie.getImdbName()).getValue();
+                if(cast.isDead() && (cast.getBirthCountry().contains("USA")||cast.getBirthCountry().contains("Uk")||cast.getBirthCountry().contains("Italy")||cast.getBirthCountry().contains("France")) && !cast.isRecorrido() )
+                {
+                    // Causas no lista
+                }
+            }
+        }
+
+
+
+
+
         String[][] topFive=new String[5][2];
 
         System.out.println("Causa de muerte:"+ topFive[0][0]+"Cantidad de personas:"+topFive[0][1]);

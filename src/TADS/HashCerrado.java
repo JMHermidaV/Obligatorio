@@ -40,7 +40,7 @@ public class HashCerrado<K,V> implements HashTable<K,V> {
 
     @Override
     public HashNode get(K key) {
-        HashNode node=null;
+        HashNode<K,V> node=null;
         int posibleposition = key.hashCode()%sizeHash;
         if(tableHash[posibleposition] != null){
             while (node==null && posibleposition!=sizeHash){

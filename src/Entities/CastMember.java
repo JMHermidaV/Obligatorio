@@ -27,6 +27,7 @@ public class CastMember {
     private int children;
     private Lista<CauseOfDeath> causesOfDeath;
     private int apariciones=0;
+    private boolean recorrido=false;
 
     public CastMember(String imdbNameId, String name, String birthName, int height, String bio, Date birthDate, String birthState, String birthCountry, String birthCity, Date deathDate, String deathState, String deathCountry, String deathCity, String spousesString, int spouses, int divorces, int spousesWithChildren, int children, Lista<CauseOfDeath> causesOfDeath) {
         this.imdbNameId = imdbNameId;
@@ -163,5 +164,21 @@ public class CastMember {
 
     public void setApariciones() {
         this.apariciones +=1;
+    }
+
+    public boolean isDead(){
+        boolean r=false;
+        if (this.causesOfDeath != null){
+            r=true;
+        }
+        return r;
+    }
+
+    public boolean isRecorrido() {
+        return recorrido;
+    }
+
+    public void setRecorrido() {
+        this.recorrido = true;
     }
 }

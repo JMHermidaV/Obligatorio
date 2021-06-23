@@ -37,7 +37,7 @@ public class main {
             if (opcion==1){
                 consultas.consultaUno(main.castMember, main.movieCastMember);
             }else if(opcion==2){
-                consultas.consultaDos();
+                consultas.consultaDos(main.castMember, main.movieCastMember);
             }else if(opcion==3){
                 consultas.consultaTres();
             }else if(opcion==4){
