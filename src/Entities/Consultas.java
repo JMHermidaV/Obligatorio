@@ -62,7 +62,7 @@ public class Consultas {
         System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);
     }
 
-    /*public void consultaDos(HashCerrado<String,CastMember> castMember, ListaEnlazada<MovieCastMember> movieCastMember){
+    public void consultaDos(HashCerrado<String,CastMember> castMember, ListaEnlazada<MovieCastMember> movieCastMember){
         long tiempoInicial=System.currentTimeMillis();
 
         MovieCastMember movie= movieCastMember.first.getValue();
@@ -205,6 +205,6 @@ public class Consultas {
         long tiempo=tiempoFinal-tiempoInicial;
         System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);
 
-    }*/
+    }
 
 }
