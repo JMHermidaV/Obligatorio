@@ -12,6 +12,7 @@ public class main {
     private ListaEnlazada<MovieCastMember> movieCastMember;
     private MyHeapImpl<MovieRating> movieRating;
     private ListaEnlazada<CauseOfDeath> causeOfDeath;
+    private HashCerrado<String,ListaEnlazada<MovieCastMember>> movieCastMemberHash;
 
     /*public int menuPrincipal(){
         Scanner myObj=new Scanner(System.in);
@@ -39,7 +40,7 @@ public class main {
             }else if(opcion==2){
                 consultas.consultaDos(main.castMember, main.movieCastMember);
             }else if(opcion==3){
-                consultas.consultaTres();
+                consultas.consultaTres(main.movieRating);
             }else if(opcion==4){
                 consultas.consultaCuatro();
             }else if(opcion==5){

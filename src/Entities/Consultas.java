@@ -3,6 +3,7 @@ package Entities;
 import TADS.HashCerrado;
 import TADS.HashNode;
 import TADS.ListaEnlazada;
+import TADS.MyHeapImpl;
 
 import java.util.Scanner;
 
@@ -82,9 +83,35 @@ public class Consultas {
         System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);
     }
 
-    public void consultaTres(){
+    public void consultaTres(MyHeapImpl<MovieRating> movieRating,HashCerrado<String, Movie> movie,HashCerrado<String,ListaEnlazada<MovieCastMember>> movieCastMemberHash,HashCerrado<String, CastMember> castMember){
         long tiempoInicial=System.currentTimeMillis();
         String[][] top=new String[14][3];
+        int i=0;
+        while (movieRating.get()!=null || top[14][0]==null){
+            Movie movietemp=movie.get(movieRating.delete().getImbdTitled());
+            if (movietemp.getYear()==1960||movietemp.getYear()==1950){
+
+                top[i][0]=movietemp.getImdbTitled();
+                i++;
+            }
+        }
+
+        for (int i=0;i< top.length;i++){
+            String movieTitlie=top[i][0];
+            Lista<MovieCastMember> castmembers = movieCastMemberHash.get(movieTitlie);
+            MovieCastMember movieCastMember =castmembers.first.getValue();
+            while (castMember!=null){
+                if(castmember.)
+            }
+
+
+
+
+
+
+
+        }
+
 
         for (int i=0;i<top.length;i++){
             if(top[i][2]!=null){
