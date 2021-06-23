@@ -40,14 +40,23 @@ public class Consultas {
         //Termino de recorrer y ordeno el hash por apariciones
         //Saco las 5 primeras
 
-        String[][] topFive=new String[5][2];
+        CastMember[] topFive=new CastMember[5];
+        try {
+            topFive[0] = CastMembersHeapMax.delete();
+            topFive[1] = CastMembersHeapMax.delete();
+            topFive[2] = CastMembersHeapMax.delete();
+            topFive[3] = CastMembersHeapMax.delete();
+            topFive[4] = CastMembersHeapMax.delete();
+        } catch (EmptyHeapException e) {
+            e.printStackTrace();
+        }
 
 
-        System.out.println("Nombre actor/actriz:"+ topFive[0][0]+"Cantidad de apariciones:"+topFive[0][1]);
-        System.out.println("Nombre actor/actriz:"+ topFive[1][0]+"Cantidad de apariciones:"+topFive[1][1]);
-        System.out.println("Nombre actor/actriz:"+ topFive[2][0]+"Cantidad de apariciones:"+topFive[2][1]);
-        System.out.println("Nombre actor/actriz:"+ topFive[3][0]+"Cantidad de apariciones:"+topFive[3][1]);
-        System.out.println("Nombre actor/actriz:"+ topFive[4][0]+"Cantidad de apariciones:"+topFive[4][1]);
+        System.out.println("Nombre actor/actriz:"+ topFive[0].getName()+" Cantidad de apariciones:"+topFive[0].getApariciones());
+        System.out.println("Nombre actor/actriz:"+ topFive[1].getName()+" Cantidad de apariciones:"+topFive[1].getApariciones());
+        System.out.println("Nombre actor/actriz:"+ topFive[2].getName()+" Cantidad de apariciones:"+topFive[2].getApariciones());
+        System.out.println("Nombre actor/actriz:"+ topFive[3].getName()+" Cantidad de apariciones:"+topFive[3].getApariciones());
+        System.out.println("Nombre actor/actriz:"+ topFive[4].getName()+" Cantidad de apariciones:"+topFive[4].getApariciones());
         long tiempoFinal=System.currentTimeMillis();
         long tiempo=tiempoFinal-tiempoInicial;
         System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);

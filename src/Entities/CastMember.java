@@ -6,7 +6,7 @@ import TADS.ListaEnlazada;
 import java.util.Date;
 import java.util.Objects;
 
-public class CastMember {
+public class CastMember implements Comparable<CastMember> {
 
     private String imdbNameId;
     private String name;
@@ -149,5 +149,13 @@ public class CastMember {
 
     public void setRecorrido() {
         this.recorrido = true;
+    }
+
+    @Override
+    public int compareTo(CastMember o) {
+        return compare(this.getApariciones(),o.getApariciones());
+    }
+    public static int compare (float x, float y) {
+        return Float.compare(x, y);
     }
 }
