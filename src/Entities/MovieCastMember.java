@@ -3,6 +3,8 @@ package Entities;
 import TADS.Lista;
 import TADS.ListaEnlazada;
 
+import java.util.Objects;
+
 public class MovieCastMember implements Comparable<MovieCastMember> {
     private String imdbTitled;
     private int ordering;
@@ -42,6 +44,22 @@ public class MovieCastMember implements Comparable<MovieCastMember> {
 
     public Lista<String> getCharacters() {
         return characters;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        boolean resultado = false;
+        if (o instanceof MovieCastMember) {
+            if ((((MovieCastMember) o).getImdbName() == this.imdbName) || ((MovieCastMember) o).getImdbTitled() == this.imdbTitled) {
+                resultado = true;
+            }
+        }
+        return resultado;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.parseInt(this.getImdbTitled().substring(2,9));
     }
 
     @Override

@@ -4,6 +4,7 @@ import TADS.Lista;
 import TADS.ListaEnlazada;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Movie {
     private String imdbTitled;
@@ -149,6 +150,11 @@ public class Movie {
 
     public void setRating(MovieRating rating) {
         this.rating = rating;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.parseInt(this.getImdbTitled().substring(2,9));
     }
 
     public boolean equals(Object b) {

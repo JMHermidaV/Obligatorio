@@ -20,8 +20,8 @@ public class CSVReaderInJava {
         System.out.println("Los datos se están cargando...");
         long tiempoInicial=System.currentTimeMillis();
         //HashTable<Integer, CastMember> CastMembersHash = readCastMembersFromCSV("IMDb names.csv");
-        HashTable<Integer, Movie> MoviesHash = readMoviesFromCSV("IMDb movies.csv");
-        HashTable<Integer, Lista<MovieCastMember>>  MovieCastMemberHash = readMovieCastMembersFromCSV("IMDb title_principals.csv");
+        HashTable<Movie, Movie> MoviesHash = readMoviesFromCSV("IMDb movies.csv");
+        HashTable<MovieCastMember, Lista<MovieCastMember>>  MovieCastMemberHash = readMovieCastMembersFromCSV("IMDb title_principals.csv");
         MyHeap<MovieRating> MovieRatingsHeapMax = readMovieRatingsFromCSV("IMDb ratings.csv");
         long tiempoFinal=System.currentTimeMillis();
         long tiempoTotal=tiempoFinal-tiempoInicial;
@@ -68,8 +68,8 @@ public class CSVReaderInJava {
         }*/
         return CastMembersHash;
     }
-    private static HashTable<Integer, Movie> readMoviesFromCSV(String fileName){
-        HashTable<Integer, Movie> MoviesHash = new HashCerrado<>(114479);
+    private static HashTable<Movie, Movie> readMoviesFromCSV(String fileName){
+        HashTable<Movie, Movie> MoviesHash = new HashCerrado<>(114479);
         Path pathToFile = Paths.get(fileName);
         try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)) {
             String line = br.readLine();            // leo la primera linea
@@ -78,7 +78,7 @@ public class CSVReaderInJava {
             while (line != null) {
                 String[] attributes = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
                 Movie movie = createMovie(attributes);
-                MoviesHash.put(Integer.parseInt(movie.getImdbTitled().substring(2,8)), movie);
+                MoviesHash.put(movie,movie);
                 line = br.readLine(); //Leo la próxima linea (si llego al final me da null)
             }
         }catch (IOException e) {
@@ -87,8 +87,8 @@ public class CSVReaderInJava {
         return MoviesHash;
     }
 
-    private static HashTable<Integer, Lista<MovieCastMember>> readMovieCastMembersFromCSV(String fileName){
-        HashTable<Integer, Lista<MovieCastMember>> movieCastMemberHash = new HashCerrado<>(114479);
+    private static HashTable<MovieCastMember, Lista<MovieCastMember>> readMovieCastMembersFromCSV(String fileName){
+        HashTable<MovieCastMember, Lista<MovieCastMember>> movieCastMemberHash = new HashCerrado<>(114479);
         Path pathToFile = Paths.get(fileName);
         try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)) {
             String line = br.readLine();            // leo la primera linea
@@ -97,12 +97,12 @@ public class CSVReaderInJava {
             while (line != null) {
                 String[] attributes = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
                 MovieCastMember movieCastMember = createMovieCastMember(attributes);
-                if (movieCastMemberHash.get(Integer.parseInt(movieCastMember.getImdbTitled().substring(2,8)))==null){
+                if (movieCastMemberHash.get(movieCastMember)==null){
                     Lista<MovieCastMember> listaMovieCastMembers = new ListaEnlazada<>();
                     listaMovieCastMembers.add(movieCastMember);
-                    movieCastMemberHash.put(Integer.parseInt(movieCastMember.getImdbTitled().substring(2,8)),listaMovieCastMembers);
+                    movieCastMemberHash.put(movieCastMember,listaMovieCastMembers);
                 }else{
-                    movieCastMemberHash.get(Integer.parseInt(movieCastMember.getImdbTitled().substring(2,8))).getValue().add(movieCastMember);
+                    movieCastMemberHash.get(movieCastMember).getValue().add(movieCastMember);
                 }
                 line = br.readLine(); //Leo la próxima linea (si llego al final me da null)
             }
@@ -132,39 +132,14 @@ public class CSVReaderInJava {
     }
 
     private static CastMember createCastMember(String[] datos){
-        Lista<CauseOfDeath> causas2 = new ListaEnlazada();
-        Date birthDate = null;
-        Date deathDate = null;
-        String[] lugarNacimiento = new String[3];
-        String[] lugarFallecimiento = new String[3];
-        if (datos[6]!=null){
-            birthDate = createDate(datos[6]);
-        }
-        if (datos[9]!=null){
-            deathDate = createDate(datos[9]);
-        }
+        int birthDate = Integer.parseInt(datos[6].substring(0,3));
+        int deathDate = Integer.parseInt(datos[9].substring(0,3));
+        CauseOfDeath causeofdeath = null;
         if (datos[11] != null){
-            String[] causas = datos[11].split("and");
-            for (int i=0;i<causas.length;i++){
-                CauseOfDeath causeofdeath = new CauseOfDeath(causas[i]);
-                causas2.add(causeofdeath);
-            }
-        }
-        if(datos[7]!=null){
-            lugarNacimiento = datos[7].split(",");
-        }
-        if(datos[10]!=null){
-            lugarFallecimiento = datos[10].split(",");
-        }
-        System.out.println(datos.length);
-        System.out.println(lugarNacimiento.length);
-        for(int i = 0; i<datos.length;i++){
-            System.out.println(datos[i]);
+            causeofdeath = new CauseOfDeath(datos[11]);
         }
 
-
-
-        CastMember cast= new CastMember(datos[0], datos[1], datos[2], Integer.parseInt(datos[3]), datos[4], birthDate, lugarNacimiento[0], lugarNacimiento[2], lugarNacimiento[1], deathDate, lugarFallecimiento[0], lugarFallecimiento[2], lugarFallecimiento[1], datos[12], Integer.parseInt(datos[13]), Integer.parseInt(datos[14]), Integer.parseInt(datos[15]), Integer.parseInt(datos[16]), causas2);
+        CastMember cast= new CastMember(datos[0], datos[1], datos[2], Integer.parseInt(datos[3]), datos[4], birthDate, datos[7], deathDate, datos[10], datos[12], Integer.parseInt(datos[13]), Integer.parseInt(datos[14]), Integer.parseInt(datos[15]), Integer.parseInt(datos[16]), causeofdeath);
         return cast;
     }
 
@@ -173,7 +148,7 @@ public class CSVReaderInJava {
         Date datePublished = null; //pos 4
         int duration = 0;
         Lista<Género> genre = new ListaEnlazada(); //pos 5
-        Lista<String> country = null; //pos 7
+        Lista<String> country = createList(datos[7],",");; //pos 7
         Lista<String> director = null; // pos 9
         Lista<String> writer = null; // pos 10
         Lista<String> actors = null; // pos 12
@@ -201,9 +176,9 @@ public class CSVReaderInJava {
                 Género genero = new Género(generos[i]);
                 genre.add(genero);
             }
-        }if (!datos[7].isEmpty()){
+        }/*if (!datos[7].isEmpty()){
             country = createList(datos[7],",");
-        }if (!datos[9].isEmpty()){
+        }*/if (!datos[9].isEmpty()){
             director = createList(datos[9],",");
         }if (!datos[10].isEmpty()){
             writer = createList(datos[10],",");

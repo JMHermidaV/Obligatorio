@@ -4,6 +4,7 @@ import TADS.Lista;
 import TADS.ListaEnlazada;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class CastMember {
 
@@ -12,60 +13,35 @@ public class CastMember {
     private String birthName;
     private int height;
     private String bio;
-    private Date birthDate;
-    private String birthState;
-    private String birthCountry;
-    private String birthCity;
-    private Date deathDate;
-    private String deathState;
-    private String deathCountry;
-    private String deathCity;
+    private int birthYear;
+    private String birthPlace;
+    private int deathYear;
+    private String deathPlace;
     private String spousesString;
     private int spouses;
     private int divorces;
     private int spousesWithChildren;
     private int children;
-    private Lista<CauseOfDeath> causesOfDeath;
+    private CauseOfDeath causesOfDeath;
     private int apariciones=0;
     private boolean recorrido=false;
 
-    public CastMember(String imdbNameId, String name, String birthName, int height, String bio, Date birthDate, String birthState, String birthCountry, String birthCity, Date deathDate, String deathState, String deathCountry, String deathCity, String spousesString, int spouses, int divorces, int spousesWithChildren, int children, Lista<CauseOfDeath> causesOfDeath) {
+    public CastMember(String imdbNameId, String name, String birthName, int height, String bio, int birthYear, String birthPlace, int deathYear, String deathPlace, String spousesString, int spouses, int divorces, int spousesWithChildren, int children, CauseOfDeath causesOfDeath) {
         this.imdbNameId = imdbNameId;
         this.name = name;
         this.birthName = birthName;
         this.height = height;
         this.bio = bio;
-        this.birthDate = birthDate;
-        this.birthState = birthState;
-        this.birthCountry = birthCountry;
-        this.birthCity = birthCity;
-        this.deathDate = deathDate;
-        this.deathState = deathState;
-        this.deathCountry = deathCountry;
-        this.deathCity = deathCity;
+        this.birthYear = birthYear;
+        this.birthPlace = birthPlace;
+        this.deathYear = deathYear;
+        this.deathPlace = deathPlace;
         this.spousesString = spousesString;
         this.spouses = spouses;
         this.divorces = divorces;
         this.spousesWithChildren = spousesWithChildren;
         this.children = children;
         this.causesOfDeath = causesOfDeath;
-    }
-
-
-    public void setDeathDate(Date deathDate) {
-        this.deathDate = deathDate;
-    }
-
-    public void setDeathState(String deathState) {
-        this.deathState = deathState;
-    }
-
-    public void setDeathCountry(String deathCountry) {
-        this.deathCountry = deathCountry;
-    }
-
-    public void setDeathCity(String deathCity) {
-        this.deathCity = deathCity;
     }
 
     public String getImdbNameId() {
@@ -88,36 +64,20 @@ public class CastMember {
         return bio;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
+    public int getBirthYear() {
+        return birthYear;
     }
 
-    public String getBirthState() {
-        return birthState;
+    public String getBirthPlace() {
+        return birthPlace;
     }
 
-    public String getBirthCountry() {
-        return birthCountry;
+    public int getDeathYear() {
+        return deathYear;
     }
 
-    public String getBirthCity() {
-        return birthCity;
-    }
-
-    public Date getDeathDate() {
-        return deathDate;
-    }
-
-    public String getDeathState() {
-        return deathState;
-    }
-
-    public String getDeathCountry() {
-        return deathCountry;
-    }
-
-    public String getDeathCity() {
-        return deathCity;
+    public String getDeathPlace() {
+        return deathPlace;
     }
 
     public String getSpousesString() {
@@ -140,12 +100,21 @@ public class CastMember {
         return children;
     }
 
-    public Lista<CauseOfDeath> getCausesOfDeath() {
+    public CauseOfDeath getCausesOfDeath() {
         return causesOfDeath;
     }
 
-    public void setCausesOfDeath(ListaEnlazada<CauseOfDeath> causesOfDeath) {
-        this.causesOfDeath = causesOfDeath;
+    public void setApariciones(int apariciones) {
+        this.apariciones = apariciones;
+    }
+
+    public void setRecorrido(boolean recorrido) {
+        this.recorrido = recorrido;
+    }
+
+    @Override
+    public int hashCode() {
+       return Integer.parseInt(this.getImdbNameId().substring(2,9));
     }
 
     public boolean equals(Object b) {

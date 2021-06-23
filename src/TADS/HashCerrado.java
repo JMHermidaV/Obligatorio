@@ -3,7 +3,6 @@ package TADS;
 public class HashCerrado<K,V> implements HashTable<K,V> {
     private int sizeHash;
     private HashNode<K,V>[] tableHash;
-    private int i=0;
     private float loadFactor = 0;
 
     public HashCerrado(int size){
@@ -30,9 +29,10 @@ public class HashCerrado<K,V> implements HashTable<K,V> {
 
     private int funcionColision(int position){
         position+=1;
+        int i = 1;
         while (tableHash[position] != null && !tableHash[position].isDeleted()) {
             if (tableHash[position] != null && !tableHash[position].isDeleted()) {
-                position += 1;
+                position += i^2;
             }
         }
         return position;
@@ -41,6 +41,7 @@ public class HashCerrado<K,V> implements HashTable<K,V> {
     @Override
     public HashNode get(K key) {
         HashNode<K,V> node=null;
+        int i = 1;
         int posibleposition = key.hashCode()%sizeHash;
         if(tableHash[posibleposition] != null){
             while (node==null && posibleposition!=sizeHash){
@@ -49,10 +50,10 @@ public class HashCerrado<K,V> implements HashTable<K,V> {
                         if (!tableHash[posibleposition].isDeleted()) {
                             node = tableHash[posibleposition];
                         } else {
-                            posibleposition = sizeHash;
+                            return null;
                         }
                     } else {
-                        posibleposition += 1;
+                        posibleposition += i^2;
                     }
                 }else{
                     return null;

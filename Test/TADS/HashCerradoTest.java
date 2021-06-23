@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class HashCerradoTest {
     @Test
     public void testFlujoCompleto(){
-        HashTable<Integer, String> miHash = new HashCerrado<>(11);
+            HashTable<Integer, String> miHash = new HashCerrado<>(11);
 
         miHash.put(1, "valor1");
         miHash.put(2, "valor2");

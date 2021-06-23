@@ -59,7 +59,7 @@ public class Consultas {
         while (movie!=null){
             if (movie.getCatogory()=="actor"|| movie.getCatogory()=="actress") {
                 CastMember cast = (CastMember) castMember.get(movie.getImdbName()).getValue();
-                if(cast.isDead() && (cast.getBirthCountry().contains("USA")||cast.getBirthCountry().contains("Uk")||cast.getBirthCountry().contains("Italy")||cast.getBirthCountry().contains("France")) && !cast.isRecorrido() )
+                if(cast.isDead() && (cast.getBirthPlace().contains("USA")||cast.getBirthPlace().contains("Uk")||cast.getBirthPlace().contains("Italy")||cast.getBirthPlace().contains("France")) && !cast.isRecorrido() )
                 {
                     // Causas no lista
                 }
