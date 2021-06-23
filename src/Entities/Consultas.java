@@ -22,12 +22,12 @@ public class Consultas {
         return opcion;
     }
 
-    public void consultaUno(HashTable<Integer,CastMember> castMember, HashCerrado<Integer,ListaEnlazada<MovieCastMember>> movieCastMember){
+    public void consultaUno(HashTable<Integer,CastMember> castMember, HashTable<Integer,Lista<MovieCastMember>> movieCastMember){
         long tiempoInicial=System.currentTimeMillis();
         for (int i=0; i<movieCastMember.getSizeHash();i++){
             int j = 0;
             if(movieCastMember.getTableHash()[i]!=null) {
-                while (j < movieCastMember.getTableHash()[i].getValue().getSize()) {
+                while (j < movieCastMember.getTableHash()[i].getValue().size()) {
                     if (movieCastMember.getTableHash()[i].getValue().get(j).getCatogory() == "actor" || movieCastMember.getTableHash()[i].getValue().get(j).getCatogory() == "actress") {
                         castMember.get(Integer.parseInt(movieCastMember.getTableHash()[i].getValue().get(j).getImdbName().substring(2, 9))).getValue().setApariciones();
                     }

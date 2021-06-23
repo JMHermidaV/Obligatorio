@@ -11,10 +11,10 @@ import java.util.Iterator;
 
 public class CSVReaderInJava {
 
-    private static HashTable<Integer, CastMember> CastMembersHash;
-    private static HashTable<Integer, Movie> MoviesHash;
-    private static HashTable<Integer, Lista<MovieCastMember>>  MovieCastMemberHash;
-    private static MyHeap<MovieRating> MovieRatingsHeapMax;
+    private HashTable<Integer, CastMember> CastMembersHash;
+    private HashTable<Integer, Movie> MoviesHash;
+    private HashTable<Integer, Lista<MovieCastMember>> MovieCastMemberHash;
+    private MyHeap<MovieRating> MovieRatingsHeapMax;
 
     public CSVReaderInJava() {
         System.out.println("Los datos se están cargando...");
@@ -27,7 +27,6 @@ public class CSVReaderInJava {
         long tiempoTotal=tiempoFinal-tiempoInicial;
 
         System.out.println("Carga de datos exitosa, tiempo de ejecución de la carga: "+ tiempoTotal +"ms");
-
     }
 
     private static HashTable<Integer, CastMember> readCastMembersFromCSV(String fileName){
@@ -272,19 +271,19 @@ public class CSVReaderInJava {
         return date;
     }
 
-    public static HashTable<Integer, CastMember> getCastMembersHash() {
+    public HashTable<Integer, CastMember> getCastMembersHash() {
         return CastMembersHash;
     }
 
-    public static HashTable<Integer, Movie> getMoviesHash() {
+    public HashTable<Integer, Movie> getMoviesHash() {
         return MoviesHash;
     }
 
-    public static HashTable<Integer, Lista<MovieCastMember>> getMovieCastMemberHash() {
+    public HashTable<Integer, Lista<MovieCastMember>> getMovieCastMemberHash() {
         return MovieCastMemberHash;
     }
 
-    public static MyHeap<MovieRating> getMovieRatingsHeapMax() {
+    public MyHeap<MovieRating> getMovieRatingsHeapMax() {
         return MovieRatingsHeapMax;
     }
 }

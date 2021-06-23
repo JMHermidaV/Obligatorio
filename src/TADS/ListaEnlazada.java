@@ -156,8 +156,4 @@ public class ListaEnlazada<T extends Comparable<T>> implements Lista<T> {
             System.out.println("No existe ese objeto en la lista");
         }
     }
-
-    public int getSize() {
-        return size;
-    }
 }

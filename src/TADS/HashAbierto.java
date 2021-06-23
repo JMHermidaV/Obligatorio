@@ -54,4 +54,14 @@ public class HashAbierto<K,V> implements HashTable<K,V> {
 
 
     }
+
+    @Override
+    public HashNode<K, V>[] getTableHash() {
+        return new HashNode[0];
+    }
+
+    @Override
+    public int getSizeHash() {
+        return 0;
+    }
 }
