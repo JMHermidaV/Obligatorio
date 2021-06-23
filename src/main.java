@@ -7,14 +7,17 @@ import TADS.MyHeapImpl;
 import java.util.Scanner;
 
 public class main {
-    private HashCerrado<String, CastMember> castMember;
+    public static void main(String[] args) {
+        CSVReaderInJava data = new CSVReaderInJava();
+    }
+     /*private HashCerrado<String, CastMember> castMember;
     private HashCerrado<String, Movie> movie;
     private ListaEnlazada<MovieCastMember> movieCastMember;
     private MyHeapImpl<MovieRating> movieRating;
     private ListaEnlazada<CauseOfDeath> causeOfDeath;
     private HashCerrado<String,ListaEnlazada<MovieCastMember>> movieCastMemberHash;
 
-    /*public int menuPrincipal(){
+   public int menuPrincipal(){
         Scanner myObj=new Scanner(System.in);
         System.out.println("Menu Principal");
         System.out.println("Seleccione la opcion que desee:");

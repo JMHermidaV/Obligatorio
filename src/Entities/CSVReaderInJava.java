@@ -2,11 +2,7 @@ package Entities;
 
 import TADS.*;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,14 +11,18 @@ import java.util.Iterator;
 
 public class CSVReaderInJava {
 
-    public static void main(String[] args) {
+    private static HashTable<Integer, CastMember> CastMembersHash;
+    private static HashTable<Integer, Movie> MoviesHash;
+    private static HashTable<Integer, Lista<MovieCastMember>>  MovieCastMemberHash;
+    private static MyHeap<MovieRating> MovieRatingsHeapMax;
 
+    public CSVReaderInJava() {
         System.out.println("Los datos se están cargando...");
         long tiempoInicial=System.currentTimeMillis();
-        HashTable<Integer, CastMember> CastMembersHash = readCastMembersFromCSV("IMDb names.csv");
-        HashTable<Integer, Movie> MoviesHash = readMoviesFromCSV("IMDb movies.csv");
-        HashTable<Integer, Lista<MovieCastMember>>  MovieCastMemberHash = readMovieCastMembersFromCSV("IMDb title_principals.csv");
-        MyHeap<MovieRating> MovieRatingsHeapMax = readMovieRatingsFromCSV("IMDb ratings.csv");
+        CastMembersHash = readCastMembersFromCSV("IMDb names.csv");
+        MoviesHash = readMoviesFromCSV("IMDb movies.csv");
+        MovieCastMemberHash = readMovieCastMembersFromCSV("IMDb title_principals.csv");
+        MovieRatingsHeapMax = readMovieRatingsFromCSV("IMDb ratings.csv");
         long tiempoFinal=System.currentTimeMillis();
         long tiempoTotal=tiempoFinal-tiempoInicial;
 
@@ -272,4 +272,19 @@ public class CSVReaderInJava {
         return date;
     }
 
+    public static HashTable<Integer, CastMember> getCastMembersHash() {
+        return CastMembersHash;
+    }
+
+    public static HashTable<Integer, Movie> getMoviesHash() {
+        return MoviesHash;
+    }
+
+    public static HashTable<Integer, Lista<MovieCastMember>> getMovieCastMemberHash() {
+        return MovieCastMemberHash;
+    }
+
+    public static MyHeap<MovieRating> getMovieRatingsHeapMax() {
+        return MovieRatingsHeapMax;
+    }
 }

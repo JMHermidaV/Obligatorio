@@ -76,4 +76,12 @@ public class HashCerrado<K,V> implements HashTable<K,V> {
         }
 
     }
+
+    public int getSizeHash() {
+        return sizeHash;
+    }
+
+    public HashNode<K, V>[] getTableHash() {
+        return tableHash;
+    }
 }

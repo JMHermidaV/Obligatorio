@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Consultas {
 
-    /*public int menuDeConsultas(){
+    public int menuDeConsultas(){
         System.out.println("1. Indicar el Top 5 de actores/actrices que más apariciones han tenido a\n" +
                 "lo largo de los años.");
         System.out.println("2. Indicar el Top 5 de las causas de muerte más frecuentes en directores\n" +
@@ -22,17 +22,20 @@ public class Consultas {
         return opcion;
     }
 
-    public void consultaUno(HashCerrado<String,CastMember> castMember, HashTable<MovieCastMember, Lista<MovieCastMember>> movieCastMember){
+    public void consultaUno(HashTable<Integer,CastMember> castMember, HashCerrado<Integer,ListaEnlazada<MovieCastMember>> movieCastMember){
         long tiempoInicial=System.currentTimeMillis();
-        MovieCastMember movie= movieCastMember.forEach();
-        while (movie!=null){
-            if (movie.getCatogory()=="actor"|| movie.getCatogory()=="actress") {
-                HashNode<String,CastMember> castnode =castMember.get(movie.getImdbName());
-                castnode.getValue().setApariciones();
-
+        for (int i=0; i<movieCastMember.getSizeHash();i++){
+            int j = 0;
+            if(movieCastMember.getTableHash()[i]!=null) {
+                while (j < movieCastMember.getTableHash()[i].getValue().getSize()) {
+                    if (movieCastMember.getTableHash()[i].getValue().get(j).getCatogory() == "actor" || movieCastMember.getTableHash()[i].getValue().get(j).getCatogory() == "actress") {
+                        castMember.get(Integer.parseInt(movieCastMember.getTableHash()[i].getValue().get(j).getImdbName().substring(2, 9))).getValue().setApariciones();
+                    }
+                    j++;
+                }
             }
-            movie=movieCastMember.first.getNextValue().getValue();
         }
+        MyHeap<CastMember> CastMembersHeapMax = new MyHeapImpl<>(85856, 1);
 
         //Termino de recorrer y ordeno el hash por apariciones
         //Saco las 5 primeras
@@ -50,7 +53,7 @@ public class Consultas {
         System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);
     }
 
-    public void consultaDos(HashCerrado<String,CastMember> castMember, ListaEnlazada<MovieCastMember> movieCastMember){
+    /*public void consultaDos(HashCerrado<String,CastMember> castMember, ListaEnlazada<MovieCastMember> movieCastMember){
         long tiempoInicial=System.currentTimeMillis();
 
         MovieCastMember movie= movieCastMember.first.getValue();
