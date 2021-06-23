@@ -1,15 +1,12 @@
 package Entities;
 
-import TADS.HashCerrado;
-import TADS.HashNode;
-import TADS.ListaEnlazada;
-import TADS.MyHeapImpl;
+import TADS.*;
 
 import java.util.Scanner;
 
 public class Consultas {
 
-    public int menuDeConsultas(){
+    /*public int menuDeConsultas(){
         System.out.println("1. Indicar el Top 5 de actores/actrices que más apariciones han tenido a\n" +
                 "lo largo de los años.");
         System.out.println("2. Indicar el Top 5 de las causas de muerte más frecuentes en directores\n" +
@@ -25,9 +22,9 @@ public class Consultas {
         return opcion;
     }
 
-    public void consultaUno(HashCerrado<String,CastMember> castMember, ListaEnlazada<MovieCastMember> movieCastMember){
+    public void consultaUno(HashCerrado<String,CastMember> castMember, HashTable<MovieCastMember, Lista<MovieCastMember>> movieCastMember){
         long tiempoInicial=System.currentTimeMillis();
-        MovieCastMember movie= movieCastMember.first.getValue();
+        MovieCastMember movie= movieCastMember.forEach();
         while (movie!=null){
             if (movie.getCatogory()=="actor"|| movie.getCatogory()=="actress") {
                 HashNode<String,CastMember> castnode =castMember.get(movie.getImdbName());
@@ -162,6 +159,6 @@ public class Consultas {
         long tiempo=tiempoFinal-tiempoInicial;
         System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);
 
-    }
+    }*/
 
 }

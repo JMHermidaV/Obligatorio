@@ -19,9 +19,9 @@ public class CSVReaderInJava {
 
         System.out.println("Los datos se están cargando...");
         long tiempoInicial=System.currentTimeMillis();
-        //HashTable<Integer, CastMember> CastMembersHash = readCastMembersFromCSV("IMDb names.csv");
-        HashTable<Movie, Movie> MoviesHash = readMoviesFromCSV("IMDb movies.csv");
-        HashTable<MovieCastMember, Lista<MovieCastMember>>  MovieCastMemberHash = readMovieCastMembersFromCSV("IMDb title_principals.csv");
+        HashTable<Integer, CastMember> CastMembersHash = readCastMembersFromCSV("IMDb names.csv");
+        HashTable<Integer, Movie> MoviesHash = readMoviesFromCSV("IMDb movies.csv");
+        HashTable<Integer, Lista<MovieCastMember>>  MovieCastMemberHash = readMovieCastMembersFromCSV("IMDb title_principals.csv");
         MyHeap<MovieRating> MovieRatingsHeapMax = readMovieRatingsFromCSV("IMDb ratings.csv");
         long tiempoFinal=System.currentTimeMillis();
         long tiempoTotal=tiempoFinal-tiempoInicial;
@@ -33,113 +33,101 @@ public class CSVReaderInJava {
     private static HashTable<Integer, CastMember> readCastMembersFromCSV(String fileName){
         HashTable<Integer, CastMember> CastMembersHash = new HashCerrado<>(396953);
 
-        /*Path pathToFile = Paths.get(fileName);
-        try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)) {
-            String line = br.readLine();            // leo la primera linea
-            line = br.readLine();                   // leo la prox pq la primera son los títulos
-
-            while (line != null) {
-                String[] attributes = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-                CastMember CastMember = createCastMember(attributes);
-                CastMembersHash.put(Integer.parseInt(CastMember.getImdbNameId().substring(2,8)), CastMember);
-                line = br.readLine(); //Leo la próxima linea (si llego al final me da null)
-            }
-        }catch (IOException e) {
-            e.printStackTrace();
+        File file = new File(fileName);
+        CsvReader csv = new CsvReader(file);
+        Iterator<String[]> csvIterator = csv.iterator();
+        String[] datos = csvIterator.next();
+        if(csvIterator.hasNext()){datos = csvIterator.next();}
+        while(csvIterator.hasNext()){
+            datos = csvIterator.next();
+            CastMember castMember = createCastMember(datos);
+            CastMembersHash.put(castMember.hashCode(), castMember);
         }
         return CastMembersHash;
-
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("IMDb names.csv"), "UTF-8"));
-            String line = br.readLine();            // leo la primera linea
-            line = br.readLine();
-            while (line != null) {
-                String[] attributes = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-                CastMember CastMember = createCastMember(attributes);
-                CastMembersHash.put(Integer.parseInt(CastMember.getImdbNameId().substring(2,8)), CastMember);
-                line = br.readLine(); //Leo la próxima linea (si llego al final me da null)
-            }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-        return CastMembersHash;
     }
-    private static HashTable<Movie, Movie> readMoviesFromCSV(String fileName){
-        HashTable<Movie, Movie> MoviesHash = new HashCerrado<>(114479);
-        Path pathToFile = Paths.get(fileName);
-        try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)) {
-            String line = br.readLine();            // leo la primera linea
-            line = br.readLine();                   // leo la prox pq la primera son los títulos
+    private static HashTable<Integer, Movie> readMoviesFromCSV(String fileName){
+        HashTable<Integer, Movie> MoviesHash = new HashCerrado<>(114479);
 
-            while (line != null) {
-                String[] attributes = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-                Movie movie = createMovie(attributes);
-                MoviesHash.put(movie,movie);
-                line = br.readLine(); //Leo la próxima linea (si llego al final me da null)
-            }
-        }catch (IOException e) {
-            e.printStackTrace();
+        File file = new File("IMDb movies.csv");
+        CsvReader csv = new CsvReader(file);
+        Iterator<String[]> csvIterator = csv.iterator();
+        String[] datos = csvIterator.next();
+        if(csvIterator.hasNext()){datos = csvIterator.next();}
+        while(csvIterator.hasNext()){
+            datos = csvIterator.next();
+            Movie movie = createMovie(datos);
+            MoviesHash.put(movie.hashCode(),movie);
         }
         return MoviesHash;
     }
 
-    private static HashTable<MovieCastMember, Lista<MovieCastMember>> readMovieCastMembersFromCSV(String fileName){
-        HashTable<MovieCastMember, Lista<MovieCastMember>> movieCastMemberHash = new HashCerrado<>(114479);
-        Path pathToFile = Paths.get(fileName);
-        try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)) {
-            String line = br.readLine();            // leo la primera linea
-            line = br.readLine();                   // leo la prox pq la primera son los títulos
+    private static HashTable<Integer, Lista<MovieCastMember>> readMovieCastMembersFromCSV(String fileName){
+        HashTable<Integer, Lista<MovieCastMember>> movieCastMemberHash = new HashCerrado<>(114479);
 
-            while (line != null) {
-                String[] attributes = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-                MovieCastMember movieCastMember = createMovieCastMember(attributes);
-                if (movieCastMemberHash.get(movieCastMember)==null){
-                    Lista<MovieCastMember> listaMovieCastMembers = new ListaEnlazada<>();
-                    listaMovieCastMembers.add(movieCastMember);
-                    movieCastMemberHash.put(movieCastMember,listaMovieCastMembers);
-                }else{
-                    movieCastMemberHash.get(movieCastMember).getValue().add(movieCastMember);
-                }
-                line = br.readLine(); //Leo la próxima linea (si llego al final me da null)
+        File file = new File(fileName);
+        CsvReader csv = new CsvReader(file);
+        Iterator<String[]> csvIterator = csv.iterator();
+        String[] datos = csvIterator.next();
+        if(csvIterator.hasNext()){datos = csvIterator.next();}
+        while(csvIterator.hasNext()){
+            datos = csvIterator.next();
+            MovieCastMember movieCastMember = createMovieCastMember(datos);
+            if (movieCastMemberHash.get(movieCastMember.hashCode())==null){
+                Lista<MovieCastMember> listaMovieCastMembers = new ListaEnlazada<>();
+                listaMovieCastMembers.add(movieCastMember);
+                movieCastMemberHash.put(movieCastMember.hashCode(),listaMovieCastMembers);
+            }else{
+                movieCastMemberHash.get(movieCastMember.hashCode()).getValue().add(movieCastMember);
             }
-        }catch (IOException e) {
-            e.printStackTrace();
         }
         return movieCastMemberHash;
     }
 
     private static MyHeap<MovieRating> readMovieRatingsFromCSV(String fileName){
         MyHeap<MovieRating> MovieRatingsHeapMax = new MyHeapImpl<>(85856, 1);
-        Path pathToFile = Paths.get(fileName);
-        try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)) {
-            String line = br.readLine();            // leo la primera linea
-            line = br.readLine();                   // leo la prox pq la primera son los títulos
 
-            while (line != null) {
-                String[] attributes = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-                MovieRating movieRating = createMovieRating(attributes);
-                MovieRatingsHeapMax.insert(movieRating);
-                line = br.readLine(); //Leo la próxima linea (si llego al final me da null)
-            }
-        }catch (IOException e) {
-            e.printStackTrace();
+        File file = new File(fileName);
+        CsvReader csv = new CsvReader(file);
+        Iterator<String[]> csvIterator = csv.iterator();
+        String[] datos = csvIterator.next();
+        if(csvIterator.hasNext()){datos = csvIterator.next();}
+        while(csvIterator.hasNext()){
+            datos = csvIterator.next();
+            MovieRating movieRating = createMovieRating(datos);
+            MovieRatingsHeapMax.insert(movieRating);
         }
         return MovieRatingsHeapMax;
     }
 
     private static CastMember createCastMember(String[] datos){
-        int birthDate = Integer.parseInt(datos[6].substring(0,3));
-        int deathDate = Integer.parseInt(datos[9].substring(0,3));
+        int birthYear = 0;
+        int deathYear = 0;
+        int altura = 0;
+        if (!datos[6].isEmpty()){
+            try{
+                birthYear = Integer.parseInt(datos[6].substring(0,4));
+            }catch (NumberFormatException e){
+                birthYear = 0;
+            }catch (StringIndexOutOfBoundsException e){
+                deathYear = Integer.parseInt(datos[9].substring(0,2));
+            }
+        }if (!datos[9].isEmpty()){
+            try{
+                deathYear = Integer.parseInt(datos[9].substring(0,4));
+            }catch (NumberFormatException e){
+                deathYear = 0;
+            }catch (StringIndexOutOfBoundsException e){
+                deathYear = Integer.parseInt(datos[9].substring(0,3));
+            }
+        }
         CauseOfDeath causeofdeath = null;
         if (datos[11] != null){
             causeofdeath = new CauseOfDeath(datos[11]);
+        }if (!datos[3].isEmpty()){
+            altura = Integer.parseInt(datos[3]);
         }
 
-        CastMember cast= new CastMember(datos[0], datos[1], datos[2], Integer.parseInt(datos[3]), datos[4], birthDate, datos[7], deathDate, datos[10], datos[12], Integer.parseInt(datos[13]), Integer.parseInt(datos[14]), Integer.parseInt(datos[15]), Integer.parseInt(datos[16]), causeofdeath);
+        CastMember cast= new CastMember(datos[0].substring(datos[0].lastIndexOf("n")), datos[1], datos[2], altura, datos[4], birthYear, datos[7], deathYear, datos[10], datos[12], Integer.parseInt(datos[13]), Integer.parseInt(datos[14]), Integer.parseInt(datos[15]), Integer.parseInt(datos[16]), causeofdeath);
         return cast;
     }
 
@@ -196,7 +184,7 @@ public class CSVReaderInJava {
             reviewFromCritics = Float.parseFloat(datos[21]);
         }
 
-        Movie movie = new Movie(datos[0], datos[1], datos[2], year, datePublished, genre, duration, country, datos[8], director, writer, datos[11], actors, datos[13], avgVotes, votes, datos[16], datos[17], datos[18], metaStore, reviewFromUsers, reviewFromCritics);
+        Movie movie = new Movie(datos[0].substring(datos[0].lastIndexOf("t")-1), datos[1], datos[2], year, datePublished, genre, duration, country, datos[8], director, writer, datos[11], actors, datos[13], avgVotes, votes, datos[16], datos[17], datos[18], metaStore, reviewFromUsers, reviewFromCritics);
         return movie;
     }
 
@@ -206,7 +194,7 @@ public class CSVReaderInJava {
             characters = createList(datos[5], ","); //REVISAR SEPARADOR
         }
 
-        MovieCastMember mvcm = new MovieCastMember(datos[0], Integer.parseInt(datos[1]),datos[2],datos[3],datos[4],characters);
+        MovieCastMember mvcm = new MovieCastMember(datos[0].substring(datos[0].lastIndexOf("t")-1), Integer.parseInt(datos[1]),datos[2],datos[3],datos[4],characters);
         return mvcm;
     }
 

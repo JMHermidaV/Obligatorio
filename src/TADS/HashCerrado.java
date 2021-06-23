@@ -14,6 +14,7 @@ public class HashCerrado<K,V> implements HashTable<K,V> {
     public void put(K key, V value) {
         loadFactor = (loadFactor * sizeHash + 1)/sizeHash;
         if(loadFactor<= 0.75) {
+            int a = key.hashCode();
             int positionInHashTable = key.hashCode() % sizeHash;
 
             if (tableHash[positionInHashTable] == null || tableHash[positionInHashTable].isDeleted()) {
@@ -32,7 +33,7 @@ public class HashCerrado<K,V> implements HashTable<K,V> {
         int i = 1;
         while (tableHash[position] != null && !tableHash[position].isDeleted()) {
             if (tableHash[position] != null && !tableHash[position].isDeleted()) {
-                position += i^2;
+                position += i;
             }
         }
         return position;
@@ -53,7 +54,7 @@ public class HashCerrado<K,V> implements HashTable<K,V> {
                             return null;
                         }
                     } else {
-                        posibleposition += i^2;
+                        posibleposition += i;
                     }
                 }else{
                     return null;
@@ -64,6 +65,7 @@ public class HashCerrado<K,V> implements HashTable<K,V> {
         }
         return node;
     }
+
 
     @Override
     public void remove(K key) {
