@@ -142,7 +142,7 @@ public class Consultas {
         while (movieRating.get() != null && top[13] == null) {
             Integer key = Integer.parseInt(movieRating.delete().getImbdTitled().substring(2, 9));
             Movie movietemp = movie.get(key).getValue();
-            if (movietemp.getYear() >= 1960 || movietemp.getYear() <= 1950) {
+            if (movietemp.getYear() <= 1960 && movietemp.getYear() >= 1950) {
                 top[i] = movietemp;
                 i++;
             }
