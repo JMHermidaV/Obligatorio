@@ -102,7 +102,7 @@ public class Consultas {
 
 
 
-     public void consultaTres(MyHeapImpl<MovieRating> movieRating,HashCerrado<Integer, Movie> movie,HashCerrado<Integer,ListaEnlazada<MovieCastMember>> movieCastMember,HashCerrado<Integer, CastMember> castMember) throws EmptyHeapException {
+     /*public void consultaTres(MyHeapImpl<MovieRating> movieRating,HashCerrado<Integer, Movie> movie,HashCerrado<Integer,ListaEnlazada<MovieCastMember>> movieCastMember,HashCerrado<Integer, CastMember> castMember) throws EmptyHeapException {
             long tiempoInicial=System.currentTimeMillis();
             int[][] top=new int[14][3];
             int i=0;
@@ -213,6 +213,6 @@ public class Consultas {
         long tiempo=tiempoFinal-tiempoInicial;
         System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);
 
-    }
+    }*/
 
 }

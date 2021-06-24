@@ -103,12 +103,16 @@ public class MyHeapImpl<T extends Comparable<T>> implements MyHeap<T> {
 
     private int maxPosition(int position1, int position2) {
         int valueToReturn = position1;
-        if (values[position1]!=null && values[position2]!=null){
-            if(values[position2].compareTo(values[position1])>0){
-                valueToReturn = position2;
+        try {
+            if (values[position1] != null && values[position2] != null) {
+                if (values[position2].compareTo(values[position1]) > 0) {
+                    valueToReturn = position2;
+                }
             }
-        }
-        if (values[position1]==null && values[position2]==null){
+            if (values[position1] == null && values[position2] == null) {
+                valueToReturn = -1;
+            }
+        }catch(ArrayIndexOutOfBoundsException e){
             valueToReturn = -1;
         }
         // Controlar posiciones fueras del arbol
