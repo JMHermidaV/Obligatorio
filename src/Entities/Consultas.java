@@ -136,41 +136,42 @@ public class Consultas {
 
 
     public void consultaTres(MyHeap<MovieRating> movieRating, HashTable<Integer, Movie> movie, HashTable<Integer, Lista<MovieCastMember>> movieCastMember, HashTable<Integer, CastMember> castMember) throws EmptyHeapException {
-    long tiempoInicial = System.currentTimeMillis();
-    Movie[] top = new Movie[14];
-    int i = 0;
-    while (movieRating.get() != null && top[13] == null) {
-        Integer key = Integer.parseInt(movieRating.delete().getImbdTitled().substring(2, 9));
-        Movie movietemp = movie.get(key).getValue();
-        if (movietemp.getYear() == 1960 || movietemp.getYear() == 1950) {
-            top[i] = movietemp;
-            i++;
-    }
-    for (i = 0; i < top.length; i++) {
-        int movieKey = Integer.parseInt(top[i].getImdbTitled().substring(2, 9));
-        Lista<MovieCastMember> castmembersTemp = movieCastMember.get(movieKey).getValue();
-        for (int k = 1; k < (castmembersTemp.size() + 1); k++) {
-            MovieCastMember movieCastMemberTemp = castmembersTemp.get(k);
-            CastMember castTemp = castMember.get(Integer.parseInt(movieCastMemberTemp.getImdbName().substring(2, 9))).getValue();
-            if (castTemp.getHeight() != 0) {
-                int altura = castTemp.getHeight();
-                top[i].setSumaAltura(altura);
-                top[i].setActoresConAltura();
+        long tiempoInicial = System.currentTimeMillis();
+        Movie[] top = new Movie[14];
+        int i = 0;
+        while (movieRating.get() != null && top[13] == null) {
+            Integer key = Integer.parseInt(movieRating.delete().getImbdTitled().substring(2, 9));
+            Movie movietemp = movie.get(key).getValue();
+            if (movietemp.getYear() >= 1960 || movietemp.getYear() <= 1950) {
+                top[i] = movietemp;
+                i++;
             }
         }
-    }
-    for (i = 0; i < top.length; i++) {
-        if (top[i].getActoresConAltura() != 0) {
-            System.out.println("Id película:" + top[i].getImdbTitled() + "Nombre:" + top[i].getOriginalTitle() + "Altura promedio de actores:" + top[i].getAlturaPromedio());
+        for (i = 0; i < top.length; i++) {
+            int movieKey = Integer.parseInt(top[i].getImdbTitled().substring(2, 9));
+            Lista<MovieCastMember> castmembersTemp = movieCastMember.get(movieKey).getValue();
+            for (int k = 1; k < (castmembersTemp.size() + 1); k++) {
+                MovieCastMember movieCastMemberTemp = castmembersTemp.get(k);
+                CastMember castTemp = castMember.get(Integer.parseInt(movieCastMemberTemp.getImdbName().substring(2, 9))).getValue();
+                if (castTemp.getHeight() != 0) {
+                    int altura = castTemp.getHeight();
+                    top[i].setSumaAltura(altura);
+                    top[i].setActoresConAltura();
+                }
+            }
         }
+        for (i = 0; i < top.length; i++) {
+            if (top[i].getActoresConAltura() != 0) {
+                System.out.println("Id película:" + top[i].getImdbTitled() + " Nombre:" + top[i].getOriginalTitle() + " Altura promedio de actores:" + top[i].getAlturaPromedio());
+            }
+        }
+
+        long tiempoFinal = System.currentTimeMillis();
+        long tiempo = tiempoFinal - tiempoInicial;
+        System.out.println("Tiempo de ejecucion de la consulta:" + tiempo);
     }
 
-    long tiempoFinal = System.currentTimeMillis();
-    long tiempo = tiempoFinal - tiempoInicial;
-    System.out.println("Tiempo de ejecucion de la consulta:" + tiempo);
-}
-
-    public void consultaCuatro(){
+    /*public void consultaCuatro(){
         long tiempoInicial=System.currentTimeMillis();
         int[] actores=new int[2];
         int[] actrices=new int[2];
@@ -187,7 +188,7 @@ public class Consultas {
         long tiempo=tiempoFinal-tiempoInicial;
         System.out.println("Tiempo de ejecucion de la consulta:"+tiempo+"ms");
 
-    }
+    }*/
 
     /*public void consultaCinco(){
         long tiempoInicial=System.currentTimeMillis();
