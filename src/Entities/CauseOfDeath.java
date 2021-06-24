@@ -20,7 +20,11 @@ public class CauseOfDeath implements Comparable<Entities.CauseOfDeath> {
 
     @Override
     public int compareTo(Entities.CauseOfDeath o) {
-        return 1;
+        return compare(this.getNumeroDeMuertes(),o.getNumeroDeMuertes());
+    }
+
+    public static int compare (float x, float y) {
+        return Float.compare(x, y);
     }
 
     public boolean equals(Object b) {

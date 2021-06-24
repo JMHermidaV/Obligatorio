@@ -30,6 +30,8 @@ public class Movie {
     private float reviewFromUsers;
     private float reviewFromCritics;
     private MovieRating rating;
+    private int sumaAltura=0;
+    private int actoresConAltura=0;
 
     public Movie(String imdbTitled, String title, String originalTitle, int year, Date datePublished, Lista<Género> genre, int duration, Lista<String> country, String language, Lista<String> director, Lista<String> writer, String productionCompany, Lista<String> actors, String description, float avgVote, int votes, String budget, String usaGrossIncome, String worldwideGrossIncome, Float metaStore, float reviewFromUsers, float reviewFromCritics) {
         this.imdbTitled = imdbTitled;
@@ -150,6 +152,25 @@ public class Movie {
 
     public void setRating(MovieRating rating) {
         this.rating = rating;
+    }
+
+    public int getActoresConAltura() {
+        return actoresConAltura;
+    }
+    public void setActoresConAltura() {
+        this.actoresConAltura +=1;
+    }
+
+    public int getSumaAltura() {
+        return sumaAltura;
+    }
+    public void setSumaAltura(int sumaAltura) {
+        this.sumaAltura += sumaAltura;
+    }
+
+    public float getAlturaPromedio(){
+        float alturaProm=this.sumaAltura/this.actoresConAltura;
+        return alturaProm;
     }
 
     @Override

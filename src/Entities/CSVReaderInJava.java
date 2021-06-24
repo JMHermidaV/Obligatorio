@@ -258,7 +258,7 @@ public class CSVReaderInJava {
             }
         }
 
-        MovieRating movierating = new MovieRating(datos[0], Float.parseFloat(datos[1]), Integer.parseInt(datos[2]), Float.parseFloat(datos[3]), Float.parseFloat(datos[4]), votesRating, allGenders,  males, females, top1000, us, nonUs);
+        MovieRating movierating = new MovieRating(datos[0].substring(datos[0].lastIndexOf("t")-1), Float.parseFloat(datos[1]), Integer.parseInt(datos[2]), Float.parseFloat(datos[3]), Float.parseFloat(datos[4]), votesRating, allGenders,  males, females, top1000, us, nonUs);
         return movierating;
     }
 

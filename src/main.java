@@ -1,8 +1,5 @@
 import Entities.*;
-import TADS.HashCerrado;
-import TADS.Lista;
-import TADS.ListaEnlazada;
-import TADS.MyHeapImpl;
+import TADS.*;
 
 import java.util.Scanner;
 
@@ -37,9 +34,13 @@ public class main {
                     if (opcion == 1) {
                         consultas.consultaUno(data.getCastMembersHash(), data.getMovieCastMemberHash());
                     } else if (opcion == 2) {
-                        //consultas.consultaDos(main.castMember, main.movieCastMember);
+                        consultas.consultaDos(data.getCastMembersHash(), data.getMovieCastMemberHash());
                     } else if (opcion == 3) {
-                        //consultas.consultaTres(main.movieRating);
+                        try {
+                            consultas.consultaTres(data.getMovieRatingsHeapMax(), data.getMoviesHash(), data.getMovieCastMemberHash(), data.getCastMembersHash());
+                        } catch (EmptyHeapException e) {
+                            e.printStackTrace();
+                        }
                     } else if (opcion == 4) {
                         // consultas.consultaCuatro();
                     } else if (opcion == 5) {
