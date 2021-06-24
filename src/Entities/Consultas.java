@@ -162,7 +162,8 @@ public class Consultas {
         }
         for (i = 0; i < top.length; i++) {
             if (top[i].getActoresConAltura() != 0) {
-                System.out.println("Id película:" + top[i].getImdbTitled() + " Nombre:" + top[i].getOriginalTitle() + " Altura promedio de actores:" + top[i].getAlturaPromedio());
+                String MovieName = top[i].getOriginalTitle();
+                System.out.println("Id película:" + top[i].getTitle() + " Nombre:" + top[i].getOriginalTitle() + " Altura promedio de actores:" + top[i].getAlturaPromedio());
             }
         }
 
