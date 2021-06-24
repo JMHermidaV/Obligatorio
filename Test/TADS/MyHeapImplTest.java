@@ -44,6 +44,7 @@ public class MyHeapImplTest {
         heapMax.delete();
         heapMin.delete();
 
+        assertEquals((Integer)74,heapMax.get());
         assertEquals(5,heapMax.size());
         assertEquals(5,heapMin.size());
 

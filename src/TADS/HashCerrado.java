@@ -47,7 +47,7 @@ public class HashCerrado<K,V> implements HashTable<K,V> {
         if(tableHash[posibleposition] != null){
             while (node==null && posibleposition!=sizeHash){
                 if(tableHash[posibleposition] != null) {
-                    if (tableHash[posibleposition].getKey() == key) {
+                    if (tableHash[posibleposition].getKey().equals(key)) {
                         if (!tableHash[posibleposition].isDeleted()) {
                             node = tableHash[posibleposition];
                         } else {

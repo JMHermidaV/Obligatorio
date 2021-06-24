@@ -29,11 +29,11 @@ public class MyHeapImpl<T extends Comparable<T>> implements MyHeap<T> {
     public void insert(T value) {
         if (values[values.length-1] != null) {
             T[] temp = (T[]) new Comparable[values.length];
-            for (int i = 0; i<size-1;i++){
+            for (int i = 0; i<size;i++){
                 temp[i] = values[i];
             }
             values = (T[]) new Comparable[(values.length)*2];
-            for (int i = 0; i<size-1;i++){
+            for (int i = 0; i<size;i++){
                 values[i] = temp[i];
             }
         }
@@ -61,6 +61,7 @@ public class MyHeapImpl<T extends Comparable<T>> implements MyHeap<T> {
     @Override
     public T delete() throws EmptyHeapException {
         T valueToReturn = null;
+        T swapNode = null;
 
         if (size == 0) {
             throw new EmptyHeapException();
@@ -72,32 +73,30 @@ public class MyHeapImpl<T extends Comparable<T>> implements MyHeap<T> {
         } else {
             int position = 0;
             values[position] = values[size - 1];
-
+            values[size - 1] = null;
+            size--;
             if(type == 1){
-
                 int childMaxPosition = maxPosition(getLeftChildPosition(position),
                         getRightChildPosition(position));
-               while (childMaxPosition == -1  && values[childMaxPosition].compareTo(values[position]) > 0) {
+                while (childMaxPosition != -1  && values[childMaxPosition].compareTo(values[position]) > 0) {
+                    swapNode = values[position];
                    values[position] = values[childMaxPosition];
-                   values[childMaxPosition] = values[size - 1];
+                   values[childMaxPosition] = swapNode;
                    position = childMaxPosition;
                    childMaxPosition = maxPosition(getLeftChildPosition(position), getRightChildPosition(position));
                 }
             }else{
                 int childMinPosition = minPosition(getLeftChildPosition(position),
                         getRightChildPosition(position));
-                while (childMinPosition == -1 && values[childMinPosition].compareTo(values[position]) > 0) {
+                while (childMinPosition != -1 && values[childMinPosition].compareTo(values[position]) > 0) {
+                    swapNode = values[position];
                     values[position] = values[childMinPosition];
-                    values[childMinPosition] = values[size - 1];
+                    values[childMinPosition] = swapNode;
                     position = childMinPosition;
                     childMinPosition = minPosition(getLeftChildPosition(position), getRightChildPosition(position));
                 }
             }
-            values[size-1] = null;
         }
-
-
-        size--;
 
         return valueToReturn;
     }
