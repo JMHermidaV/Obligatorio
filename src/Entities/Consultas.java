@@ -22,32 +22,24 @@ public class Consultas {
         return opcion;
     }
 
-    public void consultaUno(HashTable<Integer,CastMember> castMember, HashTable<Integer,Lista<MovieCastMember>> movieCastMember){
+    public void consultaUno(HashTable<Integer,CastMember> castMember, HashCerrado<Integer,ListaEnlazada<MovieCastMember>> movieCastMember){
         long tiempoInicial=System.currentTimeMillis();
         for (int i=0; i<movieCastMember.getSizeHash();i++){
-            int j = 1;
+            int j = 0;
             if(movieCastMember.getTableHash()[i]!=null) {
-                while (j < movieCastMember.getTableHash()[i].getValue().size()) {
-                    String category = movieCastMember.getTableHash()[i].getValue().get(j).getCatogory();
-                    if (category.equals("actor") || category.equals("actress")) {
-                        Integer a = Integer.parseInt(movieCastMember.getTableHash()[i].getValue().get(j).getImdbName().substring(2, 9));
-                        HashNode<Integer, CastMember> node = castMember.get(a);
-                        castMember.get(a).getValue().setApariciones();
+                while (j < movieCastMember.getTableHash()[i].getValue().getSize()) {
+                    if (movieCastMember.getTableHash()[i].getValue().get(j).getCatogory() == "actor" || movieCastMember.getTableHash()[i].getValue().get(j).getCatogory() == "actress") {
+                        castMember.get(Integer.parseInt(movieCastMember.getTableHash()[i].getValue().get(j).getImdbName().substring(2, 9))).getValue().setApariciones();
                     }
                     j++;
                 }
             }
         }
         MyHeap<CastMember> CastMembersHeapMax = new MyHeapImpl<>(85856, 1);
-        for(int i=0; i<castMember.getSizeHash();i++){
-            if(castMember.getTableHash()[i]!=null) {
-               try {
-                   CastMembersHeapMax.insert(castMember.getTableHash()[i].getValue());
-               }catch(NullPointerException n){
-                   System.out.println(castMember.getTableHash()[i].getKey());
-               }
-            }
-        }
+
+        //Termino de recorrer y ordeno el hash por apariciones
+        //Saco las 5 primeras
+
         CastMember[] topFive=new CastMember[5];
         try {
             topFive[0] = CastMembersHeapMax.delete();
@@ -67,10 +59,10 @@ public class Consultas {
         System.out.println("Nombre actor/actriz:"+ topFive[4].getName()+" Cantidad de apariciones:"+topFive[4].getApariciones());
         long tiempoFinal=System.currentTimeMillis();
         long tiempo=tiempoFinal-tiempoInicial;
-        System.out.println("Tiempo de ejecucion de la consulta:"+tiempo+"ms");
+        System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);
     }
 
-    /*public void consultaDos(HashCerrado<String,CastMember> castMember, ListaEnlazada<MovieCastMember> movieCastMember){
+    public void consultaDos(HashCerrado<String,CastMember> castMember, ListaEnlazada<MovieCastMember> movieCastMember){
         long tiempoInicial=System.currentTimeMillis();
 
         MovieCastMember movie= movieCastMember.first.getValue();
@@ -100,46 +92,80 @@ public class Consultas {
         System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);
     }
 
-    public void consultaTres(MyHeapImpl<MovieRating> movieRating,HashCerrado<String, Movie> movie,HashCerrado<String,ListaEnlazada<MovieCastMember>> movieCastMemberHash,HashCerrado<String, CastMember> castMember){
-        long tiempoInicial=System.currentTimeMillis();
-        String[][] top=new String[14][3];
-        int i=0;
-        while (movieRating.get()!=null || top[14][0]==null){
-            Movie movietemp=movie.get(movieRating.delete().getImbdTitled());
-            if (movietemp.getYear()==1960||movietemp.getYear()==1950){
 
-                top[i][0]=movietemp.getImdbTitled();
-                i++;
-            }
-        }
 
-        for (int i=0;i< top.length;i++){
-            String movieTitlie=top[i][0];
-            Lista<MovieCastMember> castmembers = movieCastMemberHash.get(movieTitlie);
-            MovieCastMember movieCastMember =castmembers.first.getValue();
-            while (castMember!=null){
-                if(castmember.)
+     public void consultaTres(MyHeapImpl<MovieRating> movieRating,HashCerrado<Integer, Movie> movie,HashCerrado<Integer,ListaEnlazada<MovieCastMember>> movieCastMember,HashCerrado<Integer, CastMember> castMember) throws EmptyHeapException {
+            long tiempoInicial=System.currentTimeMillis();
+            int[][] top=new int[14][3];
+            int i=0;
+            while (movieRating.get()!=null || top[14][0]==null){
+                Integer key=Integer.parseInt(movieRating.delete().getImbdTitled().substring(2,9));
+                Movie movietemp=movie.get(key).getValue();
+                if (movietemp.getYear()==1960||movietemp.getYear()==1950){
+
+                    top[i][0]=movietemp.getImdbTitled();
+
+                    i++;
+                }
             }
 
+            for (int i=0;i< top.length;i++){
+                int movieTitlie=top[i][0];
+                ListaEnlazada<MovieCastMember> castmembersTemp = movieCastMember.get(movieTitlie).getValue();
+                Nodo<MovieCastMember> moviecastMemberNode=castmembersTemp.first;
+                MovieCastMember movieCastMemberTemp =  moviecastMemberNode.getValue();
+                while (movieCastMemberTemp!=null){
+                    CastMember castTemp= castMember.get(Integer.parseInt(movieCastMemberTemp.getImdbName().substring(2,9))).getValue();
+                    if(castTemp.getHeight()!=null){
+                        top[i][1]+=castTemp.getHeight();
+                        top[i][2]+=1;
+                    }
+                    moviecastMemberNode=moviecastMemberNode.getNextValue();
+                    movieCastMemberTemp=moviecastMemberNode.getValue();
+                }
+
+                for (int i=0;i< top.length;i++){
+                    if (top[i][1]!=null){
+                        top[i][1]=(top[i][1])/(top[i][2]);
+
+                    }
+                }
 
 
 
 
 
-
-        }
-
-
-        for (int i=0;i<top.length;i++){
-            if(top[i][2]!=null){
-                System.out.println("Id película:"+top[i][0]+"Nombre:"+top[i][1]+"Altura promedio de actores:"+top[i][2]);
             }
-        }
-        long tiempoFinal=System.currentTimeMillis();
-        long tiempo=tiempoFinal-tiempoInicial;
-        System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);
 
-    }
+
+            for (int i=0;i<top.length;i++){
+                if(top[i][2]!=null){
+                    System.out.println("Id película:"+top[i][0]+"Nombre:"+top[i][1]+"Altura promedio de actores:"+top[i][2]);
+                }
+            }
+            long tiempoFinal=System.currentTimeMillis();
+            long tiempo=tiempoFinal-tiempoInicial;
+            System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);
+
+        }
+
+
+
+
+
+            }
+
+
+            for (int i=0;i<top.length;i++){
+                if(top[i][2]!=null){
+                    System.out.println("Id película:"+top[i][0]+"Nombre:"+top[i][1]+"Altura promedio de actores:"+top[i][2]);
+                }
+            }
+            long tiempoFinal=System.currentTimeMillis();
+            long tiempo=tiempoFinal-tiempoInicial;
+            System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);
+
+        }
 
     public void consultaCuatro(){
         long tiempoInicial=System.currentTimeMillis();
@@ -179,6 +205,6 @@ public class Consultas {
         long tiempo=tiempoFinal-tiempoInicial;
         System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);
 
-    }*/
+    }
 
 }
