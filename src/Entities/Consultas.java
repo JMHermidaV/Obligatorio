@@ -18,8 +18,7 @@ public class Consultas {
                 "cuales al menos un actor/actriz tiene 2 o más hijos.");
         System.out.println("6. Salir.");
         Scanner myObj=new Scanner(System.in);
-        int opcion=myObj.nextInt();
-        return opcion;
+        return myObj.nextInt();
     }
 
     public void consultaUno(HashTable<Integer,CastMember> castMember, HashTable<Integer,Lista<MovieCastMember>> movieCastMember){
@@ -31,7 +30,6 @@ public class Consultas {
                     String category = movieCastMember.getTableHash()[i].getValue().get(j).getCatogory();
                     if (category.equals("actor") || category.equals("actress")) {
                         Integer a = Integer.parseInt(movieCastMember.getTableHash()[i].getValue().get(j).getImdbName().substring(2, 9));
-                        HashNode<Integer, CastMember> node = castMember.get(a);
                         castMember.get(a).getValue().setApariciones();
                     }
                     j++;
@@ -161,7 +159,6 @@ public class Consultas {
         }
         for (i = 0; i < top.length; i++) {
             if (top[i].getActoresConAltura() != 0) {
-                String MovieName = top[i].getOriginalTitle();
                 System.out.println("Id película:" + top[i].getImdbTitled() + "   Nombre:" + top[i].getTitle() + "    Altura promedio de actores:" + top[i].getAlturaPromedio());
             }
         }
