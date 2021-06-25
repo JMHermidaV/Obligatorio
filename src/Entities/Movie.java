@@ -30,7 +30,7 @@ public class Movie {
     private float reviewFromUsers;
     private float reviewFromCritics;
     private MovieRating rating;
-    private int sumaAltura=0;
+    private float sumaAltura=0;
     private int actoresConAltura=0;
     private boolean recorrido=false;
 
@@ -163,11 +163,11 @@ public class Movie {
         this.actoresConAltura +=1;
     }
 
-    public int getSumaAltura() {
+    public float getSumaAltura() {
         return sumaAltura;
     }
 
-    public void setSumaAltura(int sumaAltura) {
+    public void setSumaAltura(float sumaAltura) {
         this.sumaAltura += sumaAltura;
     }
 

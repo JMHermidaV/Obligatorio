@@ -162,7 +162,7 @@ public class Consultas {
         for (i = 0; i < top.length; i++) {
             if (top[i].getActoresConAltura() != 0) {
                 String MovieName = top[i].getOriginalTitle();
-                System.out.println("Id película:" + top[i].getTitle() + "   Nombre:" + top[i].getOriginalTitle() + "    Altura promedio de actores:" + top[i].getAlturaPromedio());
+                System.out.println("Id película:" + top[i].getImdbTitled() + "   Nombre:" + top[i].getTitle() + "    Altura promedio de actores:" + top[i].getAlturaPromedio());
             }
         }
 
@@ -292,6 +292,50 @@ public class Consultas {
                 }
             }
         }
+
+        /*long tiempoInicial=System.currentTimeMillis();
+        Lista<Género> listaGenero= new ListaEnlazada<>();
+        HashTable<Integer,Lista<String>> PelisConsideradas = new HashCerrado<>(72353);
+        //int i = 0;
+        //while(i<movieCastMember.getSizeHash())
+        for (int i=0; i<movieCastMember.getSizeHash(); i++){
+            if(movieCastMember.getTableHash()[i]!=null) {
+                Lista<MovieCastMember> listaCastMembersTemp= movieCastMember.getTableHash()[i].getValue();
+                int j = 1;
+                boolean considerada = false;
+                while (j<listaCastMembersTemp.size()+1 && !considerada) {
+                    if ((listaCastMembersTemp.get(j).getCatogory().equals("actor") || listaCastMembersTemp.get(j).getCatogory().equals("actress")) && castMember.get(Integer.parseInt((listaCastMembersTemp.get(j).getImdbName().substring(2, 9)))).getValue().getChildren() >= 2) {
+                        considerada = true;
+                        Lista<String> generosTemp = movie.get(Integer.parseInt((listaCastMembersTemp.get(j).getImdbTitled().substring(2, 9)))).getValue().getGenre();
+                        PelisConsideradas.put(Integer.parseInt((listaCastMembersTemp.get(j).getImdbTitled().substring(2, 9))), generosTemp);
+                    }j++;
+                }
+            }
+        }
+        for (int i=0; i<PelisConsideradas.getSizeHash(); i++){
+            if(PelisConsideradas.getTableHash()[i]!=null) {
+                Lista<String> generosTemp = PelisConsideradas.getTableHash()[i].getValue();
+                for (int k = 1; k < generosTemp.size() + 1; k++) {
+                    boolean coinidencia = false;
+                    while (!coinidencia) {
+                        for (int l = 1; l < listaGenero.size() + 1; l++) {
+                            if (listaGenero.get(l).getGenreName().equals(generosTemp.get(k))) {
+                                listaGenero.get(l).setCounterGenero();
+                                coinidencia = true;
+                            }
+                        }
+                        if (!coinidencia) {
+                            Género newGenero = new Género(generosTemp.get(k));
+                            newGenero.setCounterGenero();
+                            listaGenero.add(newGenero);
+                            coinidencia = true;
+                        }
+                    }
+                }
+            }
+        }*/
+
+
         MyHeap<Género> GeneroHeapMax = new MyHeapImpl<>(listaGenero.size()+1, 1);
         for(int i=1; i<listaGenero.size()+1;i++){
             if(listaGenero.get(i)!=null) {
@@ -315,16 +359,16 @@ public class Consultas {
         }
 
 
-        System.out.println("Genero pelicula:"+ topTen[0].getGenreName()+"Cantidad:"+topTen[0].getCounterGenero());
-        System.out.println("Genero pelicula:"+ topTen[1].getGenreName()+"Cantidad:"+topTen[1].getCounterGenero());
-        System.out.println("Genero pelicula:"+ topTen[2].getGenreName()+"Cantidad:"+topTen[2].getCounterGenero());
-        System.out.println("Genero pelicula:"+ topTen[3].getGenreName()+"Cantidad:"+topTen[3].getCounterGenero());
-        System.out.println("Genero pelicula:"+ topTen[4].getGenreName()+"Cantidad:"+topTen[4].getCounterGenero());
-        System.out.println("Genero pelicula:"+ topTen[5].getGenreName()+"Cantidad:"+topTen[5].getCounterGenero());
-        System.out.println("Genero pelicula:"+ topTen[6].getGenreName()+"Cantidad:"+topTen[6].getCounterGenero());
-        System.out.println("Genero pelicula:"+ topTen[7].getGenreName()+"Cantidad:"+topTen[7].getCounterGenero());
-        System.out.println("Genero pelicula:"+ topTen[8].getGenreName()+"Cantidad:"+topTen[8].getCounterGenero());
-        System.out.println("Genero pelicula:"+ topTen[9].getGenreName()+"Cantidad:"+topTen[9].getCounterGenero());
+        System.out.println("Genero pelicula:"+ topTen[0].getGenreName()+"   Cantidad:"+topTen[0].getCounterGenero());
+        System.out.println("Genero pelicula:"+ topTen[1].getGenreName()+"   Cantidad:"+topTen[1].getCounterGenero());
+        System.out.println("Genero pelicula:"+ topTen[2].getGenreName()+"   Cantidad:"+topTen[2].getCounterGenero());
+        System.out.println("Genero pelicula:"+ topTen[3].getGenreName()+"   Cantidad:"+topTen[3].getCounterGenero());
+        System.out.println("Genero pelicula:"+ topTen[4].getGenreName()+"   Cantidad:"+topTen[4].getCounterGenero());
+        System.out.println("Genero pelicula:"+ topTen[5].getGenreName()+"   Cantidad:"+topTen[5].getCounterGenero());
+        System.out.println("Genero pelicula:"+ topTen[6].getGenreName()+"   Cantidad:"+topTen[6].getCounterGenero());
+        System.out.println("Genero pelicula:"+ topTen[7].getGenreName()+"   Cantidad:"+topTen[7].getCounterGenero());
+        System.out.println("Genero pelicula:"+ topTen[8].getGenreName()+"   Cantidad:"+topTen[8].getCounterGenero());
+        System.out.println("Genero pelicula:"+ topTen[9].getGenreName()+"   Cantidad:"+topTen[9].getCounterGenero());
         long tiempoFinal=System.currentTimeMillis();
         long tiempo=tiempoFinal-tiempoInicial;
         System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);

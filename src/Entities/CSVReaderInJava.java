@@ -183,7 +183,7 @@ public class CSVReaderInJava {
         if (!datos[5].isEmpty()){
             String[] generos = datos[5].split(",");
             for (int i=0;i<generos.length;i++){
-                genre.add(generos[i]);
+                genre.add(generos[i].strip());
             }
         }/*if (!datos[7].isEmpty()){
             country = createList(datos[7],",");
