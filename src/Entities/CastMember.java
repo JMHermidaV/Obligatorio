@@ -115,7 +115,7 @@ public class CastMember implements Comparable<CastMember> {
 
     @Override
     public int hashCode() {
-       return Integer.parseInt(this.getImdbNameId().substring(2,9));
+       return Integer.parseInt(this.getImdbNameId().substring(2,9).replaceAll("^0+(?!$)", ""));
     }
 
     public boolean equals(Object b) {

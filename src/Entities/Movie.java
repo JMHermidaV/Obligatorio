@@ -32,7 +32,6 @@ public class Movie {
     private MovieRating rating;
     private float sumaAltura=0;
     private int actoresConAltura=0;
-    private boolean recorrido=false;
 
     public Movie(String imdbTitled, String title, String originalTitle, int year, Date datePublished, Lista<String> genre, int duration, Lista<String> country, String language, Lista<String> director, Lista<String> writer, String productionCompany, Lista<String> actors, String description, float avgVote, int votes, String budget, String usaGrossIncome, String worldwideGrossIncome, Float metaStore, float reviewFromUsers, float reviewFromCritics) {
         this.imdbTitled = imdbTitled;
@@ -171,10 +170,6 @@ public class Movie {
         this.sumaAltura += sumaAltura;
     }
 
-    public boolean isRecorrido() {return recorrido;}
-
-    public void setRecorrido() {this.recorrido = true;}
-
     public float getAlturaPromedio(){
         float alturaProm=this.sumaAltura/this.actoresConAltura;
         return alturaProm;
@@ -182,7 +177,7 @@ public class Movie {
 
     @Override
     public int hashCode() {
-        return Integer.parseInt(this.getImdbTitled().substring(2,9));
+        return Integer.parseInt(this.getImdbTitled().substring(2,9).replaceAll("^0+(?!$)", ""));
     }
 
     public boolean equals(Object b) {
