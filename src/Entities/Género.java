@@ -16,8 +16,7 @@ public class Género implements Comparable<Género> {
         this.counterGenero +=1;
     }
     public boolean equals(Género b){
-        boolean equals = b.getGenreName().equals(this.getGenreName());
-        return equals;
+        return b.getGenreName().equals(this.getGenreName());
     }
     @Override
     public int compareTo(Género o) {
