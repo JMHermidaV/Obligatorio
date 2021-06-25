@@ -42,7 +42,7 @@ public class main {
                         } else if (opcion == 4) {
                             consultas.consultaCuatro(data.getCastMembersHash(), data.getMovieCastMemberHash());
                         } else if (opcion == 5) {
-                            //consultas.consultaCinco();
+                            consultas.consultaCinco(data.getMoviesHash(), data.getMovieCastMemberHash(),data.getCastMembersHash());
                         } else if (opcion == 6) {
                             enConsultas = false;
                             corriendo = false;

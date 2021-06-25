@@ -1,11 +1,11 @@
 package Entities;
 
-public class AnoNacimientoPorCaegory implements Comparable<AnoNacimientoPorCaegory> {
+public class AnoNacimientoPorCategory implements Comparable<AnoNacimientoPorCategory> {
     private int anoNacimiento = 0;
     private String category;
     private int cantidadPersonas = 1;
 
-    public AnoNacimientoPorCaegory(int anoNacimiento, String category) {
+    public AnoNacimientoPorCategory(int anoNacimiento, String category) {
         this.anoNacimiento = anoNacimiento;
         this.category = category;
     }
@@ -27,7 +27,7 @@ public class AnoNacimientoPorCaegory implements Comparable<AnoNacimientoPorCaego
     }
 
     @Override
-    public int compareTo(AnoNacimientoPorCaegory o) {
+    public int compareTo(AnoNacimientoPorCategory o) {
         return compare(this.getCantidadPersonas(),o.getCantidadPersonas());
     }
     public static int compare (float x, float y) {

@@ -2,7 +2,6 @@ package Entities;
 
 import TADS.*;
 
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Consultas {
@@ -174,8 +173,8 @@ public class Consultas {
 
     public void consultaCuatro(HashTable<Integer,CastMember> castMember, HashTable<Integer,Lista<MovieCastMember>> movieCastMember) throws EmptyHeapException {
         long tiempoInicial=System.currentTimeMillis();
-        Lista<AnoNacimientoPorCaegory> anosNacimientoActors = new ListaEnlazada<>();
-        Lista<AnoNacimientoPorCaegory> anosNacimientoActress = new ListaEnlazada<>();
+        Lista<AnoNacimientoPorCategory> anosNacimientoActors = new ListaEnlazada<>();
+        Lista<AnoNacimientoPorCategory> anosNacimientoActress = new ListaEnlazada<>();
         for (int i=0; i<movieCastMember.getSizeHash();i++){
             int j = 1;
             if(movieCastMember.getTableHash()[i]!=null) {
@@ -184,13 +183,12 @@ public class Consultas {
                     if (category.equals("actor")) {
                         Integer key = Integer.parseInt(movieCastMember.getTableHash()[i].getValue().get(j).getImdbName().substring(2, 9));
                         HashNode<Integer, CastMember> node = castMember.get(key);
-                        int birthYear = castMember.get(key).getValue().getBirthYear();
                         if(!node.getValue().isCounted()) {
                             node.getValue().setCounted();
                             boolean entro = false;
                             if (node.getValue().getBirthYear()!=0) {
                                 if(anosNacimientoActors.size() == 0){
-                                    AnoNacimientoPorCaegory temp = new AnoNacimientoPorCaegory(node.getValue().getBirthYear(),"actor");
+                                    AnoNacimientoPorCategory temp = new AnoNacimientoPorCategory(node.getValue().getBirthYear(),"actor");
                                     anosNacimientoActors.add(temp);
                                 }else {
                                     for (int k = 1; k < anosNacimientoActors.size() + 1; k++) {
@@ -200,7 +198,7 @@ public class Consultas {
                                         }
                                     }
                                     if (!entro) {
-                                        AnoNacimientoPorCaegory temp = new AnoNacimientoPorCaegory(node.getValue().getBirthYear(),"actor");
+                                        AnoNacimientoPorCategory temp = new AnoNacimientoPorCategory(node.getValue().getBirthYear(),"actor");
                                         anosNacimientoActors.add(temp);
                                     }
                                 }
@@ -209,13 +207,12 @@ public class Consultas {
                     }else if(category.equals("actress")){
                         Integer key = Integer.parseInt(movieCastMember.getTableHash()[i].getValue().get(j).getImdbName().substring(2, 9));
                         HashNode<Integer, CastMember> node = castMember.get(key);
-                        int birthYear = castMember.get(key).getValue().getBirthYear();
                         if(!node.getValue().isCounted()) {
                             node.getValue().setCounted();
                             boolean entro = false;
                             if (node.getValue().getBirthYear()!=0) {
                                 if(anosNacimientoActress.size() == 0){
-                                    AnoNacimientoPorCaegory temp = new AnoNacimientoPorCaegory(node.getValue().getBirthYear(),"actress");
+                                    AnoNacimientoPorCategory temp = new AnoNacimientoPorCategory(node.getValue().getBirthYear(),"actress");
                                     anosNacimientoActress.add(temp);
                                 }else {
                                     for (int k = 1; k < anosNacimientoActress.size() + 1; k++) {
@@ -225,7 +222,7 @@ public class Consultas {
                                         }
                                     }
                                     if (!entro) {
-                                        AnoNacimientoPorCaegory temp = new AnoNacimientoPorCaegory(node.getValue().getBirthYear(),"actress");
+                                        AnoNacimientoPorCategory temp = new AnoNacimientoPorCategory(node.getValue().getBirthYear(),"actress");
                                         anosNacimientoActress.add(temp);
                                     }
                                 }
@@ -236,8 +233,8 @@ public class Consultas {
                 }
             }
         }
-        MyHeap<AnoNacimientoPorCaegory> anosActorsHeapMax = new MyHeapImpl<>(2027, 1);
-        MyHeap<AnoNacimientoPorCaegory> anosActressHeapMax = new MyHeapImpl<>(2027, 1);
+        MyHeap<AnoNacimientoPorCategory> anosActorsHeapMax = new MyHeapImpl<>(2027, 1);
+        MyHeap<AnoNacimientoPorCategory> anosActressHeapMax = new MyHeapImpl<>(2027, 1);
         for(int i=1; i<anosNacimientoActors.size()+1;i++){
             anosActorsHeapMax.insert(anosNacimientoActors.get(i));
         }
@@ -259,25 +256,78 @@ public class Consultas {
 
     }
 
-    /*public void consultaCinco(){
+    public void consultaCinco(HashTable<Integer, Movie> movie, HashTable<Integer, Lista<MovieCastMember>> movieCastMember, HashTable<Integer, CastMember> castMember){
         long tiempoInicial=System.currentTimeMillis();
-        String[][] topTen=new String[10][2];
+        Lista<Género> listaGenero= new ListaEnlazada<>();
+        for (int i=0; i<movieCastMember.getSizeHash(); i++){
+            boolean tieneMasDeDosHijos=false;
+            if(movieCastMember.getTableHash()[i]!=null) {
+                int l = 1;
+                while (!tieneMasDeDosHijos && l <= movieCastMember.getTableHash()[i].getValue().size()) {
+                    if ((movieCastMember.getTableHash()[i].getValue().get(l).getCatogory().equals("actor") || movieCastMember.getTableHash()[i].getValue().get(l).getCatogory().equals("actress")) && castMember.get(Integer.parseInt((movieCastMember.getTableHash()[i].getValue().get(l).getImdbName().substring(2, 9)))).getValue().getChildren() >= 2 && !movie.get(Integer.parseInt(movieCastMember.getTableHash()[i].getValue().get(l).getImdbTitled().substring(2, 9))).getValue().isRecorrido()) {
+                        tieneMasDeDosHijos = true;
+                        movie.get(Integer.parseInt(movieCastMember.getTableHash()[i].getValue().get(l).getImdbTitled().substring(2, 9))).getValue().setRecorrido();
+                        Lista<String> generosTemp = movie.get(Integer.parseInt((movieCastMember.getTableHash()[i].getValue().get(l).getImdbTitled().substring(2, 9)))).getValue().getGenre();
+                        for (int j = 1; j < generosTemp.size() + 1; j++) {
+                            boolean coinidencia = false;
+                            while (!coinidencia) {
+                                for (int k = 1; k < listaGenero.size() + 1; k++) {
+                                    if (listaGenero.get(k).getGenreName().equals(generosTemp.get(j))) {
+                                        listaGenero.get(k).setCounterGenero();
+                                        coinidencia = true;
+                                    }
+                                }
+                                if (!coinidencia) {
+                                    Género newGenero = new Género(generosTemp.get(j));
+                                    newGenero.setCounterGenero();
+                                    listaGenero.add(newGenero);
+                                    coinidencia = true;
+                                }
+                            }
 
-        System.out.println("Genero pelicula:"+ topTen[0][0]+"Cantidad:"+topTen[0][1]);
-        System.out.println("Genero pelicula:"+ topTen[1][0]+"Cantidad:"+topTen[1][1]);
-        System.out.println("Genero pelicula:"+ topTen[2][0]+"Cantidad:"+topTen[2][1]);
-        System.out.println("Genero pelicula:"+ topTen[3][0]+"Cantidad:"+topTen[3][1]);
-        System.out.println("Genero pelicula:"+ topTen[4][0]+"Cantidad:"+topTen[4][1]);
-        System.out.println("Genero pelicula:"+ topTen[5][0]+"Cantidad:"+topTen[5][1]);
-        System.out.println("Genero pelicula:"+ topTen[6][0]+"Cantidad:"+topTen[6][1]);
-        System.out.println("Genero pelicula:"+ topTen[7][0]+"Cantidad:"+topTen[7][1]);
-        System.out.println("Genero pelicula:"+ topTen[8][0]+"Cantidad:"+topTen[8][1]);
-        System.out.println("Genero pelicula:"+ topTen[9][0]+"Cantidad:"+topTen[9][1]);
+                        }
+                    }else{
+                        l++;
+                    }
+                }
+            }
+        }
+        MyHeap<Género> GeneroHeapMax = new MyHeapImpl<>(listaGenero.size()+1, 1);
+        for(int i=1; i<listaGenero.size()+1;i++){
+            if(listaGenero.get(i)!=null) {
+                GeneroHeapMax.insert(listaGenero.get(i));
+            }
+        }
+        Género[] topTen= new Género[10];
+        try {
+            topTen[0]= GeneroHeapMax.delete();
+            topTen[1]= GeneroHeapMax.delete();
+            topTen[2]= GeneroHeapMax.delete();
+            topTen[3]= GeneroHeapMax.delete();
+            topTen[4]= GeneroHeapMax.delete();
+            topTen[5]= GeneroHeapMax.delete();
+            topTen[6]= GeneroHeapMax.delete();
+            topTen[7]= GeneroHeapMax.delete();
+            topTen[8]= GeneroHeapMax.delete();
+            topTen[9]= GeneroHeapMax.delete();
+        }catch (EmptyHeapException e) {
+            e.printStackTrace();
+        }
 
+
+        System.out.println("Genero pelicula:"+ topTen[0].getGenreName()+"Cantidad:"+topTen[0].getCounterGenero());
+        System.out.println("Genero pelicula:"+ topTen[1].getGenreName()+"Cantidad:"+topTen[1].getCounterGenero());
+        System.out.println("Genero pelicula:"+ topTen[2].getGenreName()+"Cantidad:"+topTen[2].getCounterGenero());
+        System.out.println("Genero pelicula:"+ topTen[3].getGenreName()+"Cantidad:"+topTen[3].getCounterGenero());
+        System.out.println("Genero pelicula:"+ topTen[4].getGenreName()+"Cantidad:"+topTen[4].getCounterGenero());
+        System.out.println("Genero pelicula:"+ topTen[5].getGenreName()+"Cantidad:"+topTen[5].getCounterGenero());
+        System.out.println("Genero pelicula:"+ topTen[6].getGenreName()+"Cantidad:"+topTen[6].getCounterGenero());
+        System.out.println("Genero pelicula:"+ topTen[7].getGenreName()+"Cantidad:"+topTen[7].getCounterGenero());
+        System.out.println("Genero pelicula:"+ topTen[8].getGenreName()+"Cantidad:"+topTen[8].getCounterGenero());
+        System.out.println("Genero pelicula:"+ topTen[9].getGenreName()+"Cantidad:"+topTen[9].getCounterGenero());
         long tiempoFinal=System.currentTimeMillis();
         long tiempo=tiempoFinal-tiempoInicial;
         System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);
-
-    }*/
+    }
 
 }
