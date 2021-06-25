@@ -4,7 +4,7 @@ public class CauseOfDeath implements Comparable<Entities.CauseOfDeath> {
 
     private String name;
 
-    private int numeroDeMuertes=0;
+    private int numeroDeMuertes=1;
 
     public CauseOfDeath(String name) {
         this.name = name;

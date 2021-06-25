@@ -17,7 +17,7 @@ public class main {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws EmptyHeapException {
         main main = new main();
         Consultas consultas = new Consultas();
         CSVReaderInJava data = null;
@@ -30,23 +30,23 @@ public class main {
                 if (data == null) {
                     System.out.println("Es necesaria la carga de datos para realizar las consultas");
                 } else {
-                    opcion = consultas.menuDeConsultas();
-                    if (opcion == 1) {
-                        consultas.consultaUno(data.getCastMembersHash(), data.getMovieCastMemberHash());
-                    } else if (opcion == 2) {
-                        consultas.consultaDos(data.getCastMembersHash(), data.getMovieCastMemberHash());
-                    } else if (opcion == 3) {
-                        try {
+                    boolean enConsultas = true;
+                    while (enConsultas) {
+                        opcion = consultas.menuDeConsultas();
+                        if (opcion == 1) {
+                            consultas.consultaUno(data.getCastMembersHash(), data.getMovieCastMemberHash());
+                        } else if (opcion == 2) {
+                            consultas.consultaDos(data.getCastMembersHash(), data.getMovieCastMemberHash());
+                        } else if (opcion == 3) {
                             consultas.consultaTres(data.getMovieRatingsHeapMax(), data.getMoviesHash(), data.getMovieCastMemberHash(), data.getCastMembersHash());
-                        } catch (EmptyHeapException e) {
-                            e.printStackTrace();
+                        } else if (opcion == 4) {
+                            consultas.consultaCuatro(data.getCastMembersHash(), data.getMovieCastMemberHash());
+                        } else if (opcion == 5) {
+                            //consultas.consultaCinco();
+                        } else if (opcion == 6) {
+                            enConsultas = false;
+                            corriendo = false;
                         }
-                    } else if (opcion == 4) {
-                        // consultas.consultaCuatro();
-                    } else if (opcion == 5) {
-                        //consultas.consultaCinco();
-                    } else if (opcion == 6) {
-
                     }
                 }
             } else if (opcion == 3) {

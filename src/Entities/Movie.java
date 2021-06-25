@@ -12,7 +12,7 @@ public class Movie {
     private String originalTitle;
     private int year;
     private Date datePublished;
-    private Lista<Género> genre;
+    private Lista<String> genre;
     private int duration;
     private Lista<String> country;
     private String language;
@@ -33,7 +33,7 @@ public class Movie {
     private int sumaAltura=0;
     private int actoresConAltura=0;
 
-    public Movie(String imdbTitled, String title, String originalTitle, int year, Date datePublished, Lista<Género> genre, int duration, Lista<String> country, String language, Lista<String> director, Lista<String> writer, String productionCompany, Lista<String> actors, String description, float avgVote, int votes, String budget, String usaGrossIncome, String worldwideGrossIncome, Float metaStore, float reviewFromUsers, float reviewFromCritics) {
+    public Movie(String imdbTitled, String title, String originalTitle, int year, Date datePublished, Lista<String> genre, int duration, Lista<String> country, String language, Lista<String> director, Lista<String> writer, String productionCompany, Lista<String> actors, String description, float avgVote, int votes, String budget, String usaGrossIncome, String worldwideGrossIncome, Float metaStore, float reviewFromUsers, float reviewFromCritics) {
         this.imdbTitled = imdbTitled;
         this.title = title;
         this.originalTitle = originalTitle;
@@ -78,7 +78,7 @@ public class Movie {
         return datePublished;
     }
 
-    public Lista<Género> getGenre() {
+    public Lista<String> getGenre() {
         return genre;
     }
 

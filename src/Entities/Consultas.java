@@ -42,11 +42,7 @@ public class Consultas {
         MyHeap<CastMember> CastMembersHeapMax = new MyHeapImpl<>(85856, 1);
         for(int i=0; i<castMember.getSizeHash();i++){
             if(castMember.getTableHash()[i]!=null) {
-                try {
-                    CastMembersHeapMax.insert(castMember.getTableHash()[i].getValue());
-                }catch(NullPointerException n){
-                    System.out.println(castMember.getTableHash()[i].getKey());
-                }
+                CastMembersHeapMax.insert(castMember.getTableHash()[i].getValue());
             }
         }
         CastMember[] topFive=new CastMember[5];
@@ -61,11 +57,11 @@ public class Consultas {
         }
 
 
-        System.out.println("Nombre actor/actriz:"+ topFive[0].getName()+" Cantidad de apariciones:"+topFive[0].getApariciones());
-        System.out.println("Nombre actor/actriz:"+ topFive[1].getName()+" Cantidad de apariciones:"+topFive[1].getApariciones());
-        System.out.println("Nombre actor/actriz:"+ topFive[2].getName()+" Cantidad de apariciones:"+topFive[2].getApariciones());
-        System.out.println("Nombre actor/actriz:"+ topFive[3].getName()+" Cantidad de apariciones:"+topFive[3].getApariciones());
-        System.out.println("Nombre actor/actriz:"+ topFive[4].getName()+" Cantidad de apariciones:"+topFive[4].getApariciones());
+        System.out.println("Nombre actor/actriz:"+ topFive[0].getName()+"   Cantidad de apariciones:"+topFive[0].getApariciones());
+        System.out.println("Nombre actor/actriz:"+ topFive[1].getName()+"   Cantidad de apariciones:"+topFive[1].getApariciones());
+        System.out.println("Nombre actor/actriz:"+ topFive[2].getName()+"   Cantidad de apariciones:"+topFive[2].getApariciones());
+        System.out.println("Nombre actor/actriz:"+ topFive[3].getName()+"   Cantidad de apariciones:"+topFive[3].getApariciones());
+        System.out.println("Nombre actor/actriz:"+ topFive[4].getName()+"   Cantidad de apariciones:"+topFive[4].getApariciones());
         long tiempoFinal=System.currentTimeMillis();
         long tiempo=tiempoFinal-tiempoInicial;
         System.out.println("Tiempo de ejecucion de la consulta:"+tiempo+"ms");
@@ -87,16 +83,21 @@ public class Consultas {
                             if(!node.getValue().isRecorrido()) {
                                 node.getValue().setRecorrido();
                                 boolean entro = false;
-                                if (!node.getValue().getCausesOfDeath().equals(null)) {
-                                    for (int k = 1; k < causas.size() + 1; k++) {
-                                        if (node.getValue().getCausesOfDeath().equals(causas.get(k))) {
-                                            causas.get(k).setNumeroDeMuertes();
-                                            entro = true;
+                                if (!node.getValue().getCausesOfDeath().equals("")) {
+                                    if(causas.size() == 0){
+                                        CauseOfDeath causa = new CauseOfDeath(node.getValue().getCausesOfDeath());
+                                        causas.add(causa);
+                                    }else {
+                                        for (int k = 1; k < causas.size() + 1; k++) {
+                                            if (node.getValue().getCausesOfDeath().equals(causas.get(k).getName())) {
+                                                causas.get(k).setNumeroDeMuertes();
+                                                entro = true;
+                                            }
                                         }
-                                    }
-                                    if (!entro) {
-                                        node.getValue().getCausesOfDeath().setNumeroDeMuertes();
-                                        causas.add(node.getValue().getCausesOfDeath());
+                                        if (!entro) {
+                                            CauseOfDeath causa = new CauseOfDeath(node.getValue().getCausesOfDeath());
+                                            causas.add(causa);
+                                        }
                                     }
                                 }
                             }
@@ -112,7 +113,6 @@ public class Consultas {
             causesHeapMax.insert(causas.get(i));
         }
 
-
         CauseOfDeath[] topFive = new CauseOfDeath[5];
         try {
             topFive[0] = causesHeapMax.delete();
@@ -123,11 +123,11 @@ public class Consultas {
         } catch (EmptyHeapException e) {
             e.printStackTrace();
         }
-        System.out.println("Causa de muerte:"+ topFive[0].getName()+" Cantidad de personas:"+topFive[0].getNumeroDeMuertes());
-        System.out.println("Causa de muerte:"+ topFive[1].getName()+" Cantidad de personas:"+topFive[1].getNumeroDeMuertes());
-        System.out.println("Causa de muerte:"+ topFive[2].getName()+" Cantidad de personas:"+topFive[2].getNumeroDeMuertes());
-        System.out.println("Causa de muerte:"+ topFive[3].getName()+" Cantidad de personas:"+topFive[3].getNumeroDeMuertes());
-        System.out.println("Causa de muerte:"+ topFive[4].getName()+" Cantidad de personas:"+topFive[4].getNumeroDeMuertes());
+        System.out.println("Causa de muerte:"+ topFive[0].getName()+"   Cantidad de personas:"+topFive[0].getNumeroDeMuertes());
+        System.out.println("Causa de muerte:"+ topFive[1].getName()+"   Cantidad de personas:"+topFive[1].getNumeroDeMuertes());
+        System.out.println("Causa de muerte:"+ topFive[2].getName()+"   Cantidad de personas:"+topFive[2].getNumeroDeMuertes());
+        System.out.println("Causa de muerte:"+ topFive[3].getName()+"   Cantidad de personas:"+topFive[3].getNumeroDeMuertes());
+        System.out.println("Causa de muerte:"+ topFive[4].getName()+"   Cantidad de personas:"+topFive[4].getNumeroDeMuertes());
         long tiempoFinal=System.currentTimeMillis();
         long tiempo=tiempoFinal-tiempoInicial;
         System.out.println("Tiempo de ejecucion de la consulta:"+tiempo+"ms");
@@ -163,7 +163,7 @@ public class Consultas {
         for (i = 0; i < top.length; i++) {
             if (top[i].getActoresConAltura() != 0) {
                 String MovieName = top[i].getOriginalTitle();
-                System.out.println("Id película:" + top[i].getTitle() + " Nombre:" + top[i].getOriginalTitle() + " Altura promedio de actores:" + top[i].getAlturaPromedio());
+                System.out.println("Id película:" + top[i].getTitle() + "   Nombre:" + top[i].getOriginalTitle() + "    Altura promedio de actores:" + top[i].getAlturaPromedio());
             }
         }
 
@@ -172,24 +172,92 @@ public class Consultas {
         System.out.println("Tiempo de ejecucion de la consulta:" + tiempo);
     }
 
-    /*public void consultaCuatro(){
+    public void consultaCuatro(HashTable<Integer,CastMember> castMember, HashTable<Integer,Lista<MovieCastMember>> movieCastMember) throws EmptyHeapException {
         long tiempoInicial=System.currentTimeMillis();
-        int[] actores=new int[2];
-        int[] actrices=new int[2];
+        Lista<AnoNacimientoPorCaegory> anosNacimientoActors = new ListaEnlazada<>();
+        Lista<AnoNacimientoPorCaegory> anosNacimientoActress = new ListaEnlazada<>();
+        for (int i=0; i<movieCastMember.getSizeHash();i++){
+            int j = 1;
+            if(movieCastMember.getTableHash()[i]!=null) {
+                while (j < movieCastMember.getTableHash()[i].getValue().size()) {
+                    String category = movieCastMember.getTableHash()[i].getValue().get(j).getCatogory();
+                    if (category.equals("actor")) {
+                        Integer key = Integer.parseInt(movieCastMember.getTableHash()[i].getValue().get(j).getImdbName().substring(2, 9));
+                        HashNode<Integer, CastMember> node = castMember.get(key);
+                        int birthYear = castMember.get(key).getValue().getBirthYear();
+                        if(!node.getValue().isCounted()) {
+                            node.getValue().setCounted();
+                            boolean entro = false;
+                            if (node.getValue().getBirthYear()!=0) {
+                                if(anosNacimientoActors.size() == 0){
+                                    AnoNacimientoPorCaegory temp = new AnoNacimientoPorCaegory(node.getValue().getBirthYear(),"actor");
+                                    anosNacimientoActors.add(temp);
+                                }else {
+                                    for (int k = 1; k < anosNacimientoActors.size() + 1; k++) {
+                                        if (node.getValue().getBirthYear() == anosNacimientoActors.get(k).getAnoNacimiento()) {
+                                            anosNacimientoActors.get(k).setCantidadPersonas();
+                                            entro = true;
+                                        }
+                                    }
+                                    if (!entro) {
+                                        AnoNacimientoPorCaegory temp = new AnoNacimientoPorCaegory(node.getValue().getBirthYear(),"actor");
+                                        anosNacimientoActors.add(temp);
+                                    }
+                                }
+                            }
+                        }
+                    }else if(category.equals("actress")){
+                        Integer key = Integer.parseInt(movieCastMember.getTableHash()[i].getValue().get(j).getImdbName().substring(2, 9));
+                        HashNode<Integer, CastMember> node = castMember.get(key);
+                        int birthYear = castMember.get(key).getValue().getBirthYear();
+                        if(!node.getValue().isCounted()) {
+                            node.getValue().setCounted();
+                            boolean entro = false;
+                            if (node.getValue().getBirthYear()!=0) {
+                                if(anosNacimientoActress.size() == 0){
+                                    AnoNacimientoPorCaegory temp = new AnoNacimientoPorCaegory(node.getValue().getBirthYear(),"actress");
+                                    anosNacimientoActress.add(temp);
+                                }else {
+                                    for (int k = 1; k < anosNacimientoActress.size() + 1; k++) {
+                                        if (node.getValue().getBirthYear() == anosNacimientoActress.get(k).getAnoNacimiento()) {
+                                            anosNacimientoActress.get(k).setCantidadPersonas();
+                                            entro = true;
+                                        }
+                                    }
+                                    if (!entro) {
+                                        AnoNacimientoPorCaegory temp = new AnoNacimientoPorCaegory(node.getValue().getBirthYear(),"actress");
+                                        anosNacimientoActress.add(temp);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    j++;
+                }
+            }
+        }
+        MyHeap<AnoNacimientoPorCaegory> anosActorsHeapMax = new MyHeapImpl<>(2027, 1);
+        MyHeap<AnoNacimientoPorCaegory> anosActressHeapMax = new MyHeapImpl<>(2027, 1);
+        for(int i=1; i<anosNacimientoActors.size()+1;i++){
+            anosActorsHeapMax.insert(anosNacimientoActors.get(i));
+        }
+        for(int i=1; i<anosNacimientoActress.size()+1;i++){
+            anosActressHeapMax.insert(anosNacimientoActress.get(i));
+        }
 
         System.out.println("Actores:");
-        System.out.println("Año:"+actores[0]);
-        System.out.println("Cantidad"+actores[1]);
+        System.out.println("    Año:"+anosActorsHeapMax.delete().getAnoNacimiento());
+        System.out.println("    Cantidad:"+anosActorsHeapMax.delete().getCantidadPersonas());
 
         System.out.println("Actrices:");
-        System.out.println("Año:"+actrices[0]);
-        System.out.println("Cantidad"+actrices[1]);
+        System.out.println("    Año: "+anosActressHeapMax.delete().getAnoNacimiento());
+        System.out.println("    Cantidad: "+anosActressHeapMax.delete().getCantidadPersonas());
 
         long tiempoFinal=System.currentTimeMillis();
         long tiempo=tiempoFinal-tiempoInicial;
         System.out.println("Tiempo de ejecucion de la consulta:"+tiempo+"ms");
 
-    }*/
+    }
 
     /*public void consultaCinco(){
         long tiempoInicial=System.currentTimeMillis();

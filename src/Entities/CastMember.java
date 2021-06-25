@@ -22,11 +22,12 @@ public class CastMember implements Comparable<CastMember> {
     private int divorces;
     private int spousesWithChildren;
     private int children;
-    private CauseOfDeath causesOfDeath;
+    private String causesOfDeath;
     private int apariciones=0;
     private boolean recorrido=false;
+    private boolean counted = false;
 
-    public CastMember(String imdbNameId, String name, String birthName, int height, String bio, int birthYear, String birthPlace, int deathYear, String deathPlace, String spousesString, int spouses, int divorces, int spousesWithChildren, int children, CauseOfDeath causesOfDeath) {
+    public CastMember(String imdbNameId, String name, String birthName, int height, String bio, int birthYear, String birthPlace, int deathYear, String deathPlace, String spousesString, int spouses, int divorces, int spousesWithChildren, int children, String causesOfDeath) {
         this.imdbNameId = imdbNameId;
         this.name = name;
         this.birthName = birthName;
@@ -100,7 +101,7 @@ public class CastMember implements Comparable<CastMember> {
         return children;
     }
 
-    public CauseOfDeath getCausesOfDeath() {
+    public String getCausesOfDeath() {
         return causesOfDeath;
     }
 
@@ -149,6 +150,14 @@ public class CastMember implements Comparable<CastMember> {
 
     public void setRecorrido() {
         this.recorrido = true;
+    }
+
+    public boolean isCounted() {
+        return counted;
+    }
+
+    public void setCounted() {
+        this.counted = true;
     }
 
     @Override

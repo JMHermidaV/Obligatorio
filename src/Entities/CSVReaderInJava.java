@@ -145,15 +145,11 @@ public class CSVReaderInJava {
             }catch (StringIndexOutOfBoundsException e){
                 deathYear = Integer.parseInt(datos[9].substring(0,3));
             }
-        }
-        CauseOfDeath causeofdeath = null;
-        if (datos[11] != null){
-            causeofdeath = new CauseOfDeath(datos[11]);
         }if (!datos[3].isEmpty()){
             altura = Integer.parseInt(datos[3]);
         }
 
-        CastMember cast= new CastMember(datos[0].substring(datos[0].lastIndexOf("n")), datos[1], datos[2], altura, datos[4], birthYear, datos[7], deathYear, datos[10], datos[12], Integer.parseInt(datos[13]), Integer.parseInt(datos[14]), Integer.parseInt(datos[15]), Integer.parseInt(datos[16]), causeofdeath);
+        CastMember cast= new CastMember(datos[0].substring(datos[0].lastIndexOf("n")), datos[1], datos[2], altura, datos[4], birthYear, datos[7], deathYear, datos[10], datos[12], Integer.parseInt(datos[13]), Integer.parseInt(datos[14]), Integer.parseInt(datos[15]), Integer.parseInt(datos[16]), datos[11]);
         return cast;
     }
 
@@ -161,7 +157,7 @@ public class CSVReaderInJava {
         int year = 0;
         Date datePublished = null; //pos 4
         int duration = 0;
-        Lista<Género> genre = new ListaEnlazada(); //pos 5
+        Lista<String> genre = new ListaEnlazada(); //pos 5
         Lista<String> country = createList(datos[7],",");; //pos 7
         Lista<String> director = null; // pos 9
         Lista<String> writer = null; // pos 10
@@ -185,10 +181,9 @@ public class CSVReaderInJava {
             duration = Integer.parseInt(datos[6]);
         }
         if (!datos[5].isEmpty()){
-            String[] generos = datos[5].split("and");
+            String[] generos = datos[5].split(",");
             for (int i=0;i<generos.length;i++){
-                Género genero = new Género(generos[i]);
-                genre.add(genero);
+                genre.add(generos[i]);
             }
         }/*if (!datos[7].isEmpty()){
             country = createList(datos[7],",");
