@@ -264,8 +264,8 @@ public class Consultas {
         System.out.println();
 
         System.out.println("Actrices:");
-        System.out.println("Año: "+anosActressHeapMax.delete().getAnoNacimiento());
-        System.out.println("Cantidad: "+anosActressHeapMax.delete().getCantidadPersonas());
+        System.out.println("Año:"+anosActressHeapMax.delete().getAnoNacimiento());
+        System.out.println("Cantidad:"+anosActressHeapMax.delete().getCantidadPersonas());
 
         long tiempoFinal=System.currentTimeMillis();
         long tiempo=tiempoFinal-tiempoInicial;
