@@ -2,7 +2,7 @@ package Entities;
 
 public class Género implements Comparable<Género> {
     private String GenreName;
-    private int counterGenero=0;
+    private int counterGenero=1;
     public Género(String genreName) {
         GenreName = genreName;
     }

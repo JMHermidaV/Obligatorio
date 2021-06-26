@@ -194,7 +194,7 @@ public class CSVReaderInJava {
     private static MovieCastMember createMovieCastMember(String[] datos){
         Lista<String> characters = null;
         if (!datos[5].isEmpty()){
-            characters = createList(datos[5], ","); //REVISAR SEPARADOR
+            characters = createList(datos[5], ",");
         }
 
         MovieCastMember mvcm = new MovieCastMember(datos[0], Integer.parseInt(datos[1]),datos[2],datos[3],datos[4],characters);

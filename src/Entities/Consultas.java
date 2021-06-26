@@ -23,14 +23,19 @@ public class Consultas {
 
     public void consultaUno(HashTable<Integer,CastMember> castMember, HashTable<Integer,Lista<MovieCastMember>> movieCastMember){
         long tiempoInicial=System.currentTimeMillis();
+        for (int i=0; i<castMember.getSizeHash();i++){
+            if(castMember.getTableHash()[i] != null) {
+                castMember.getTableHash()[i].getValue().resetApariciones();
+            }
+        }
         for (int i=0; i<movieCastMember.getSizeHash();i++){
             int j = 1;
             if(movieCastMember.getTableHash()[i]!=null) {
                 while (j < movieCastMember.getTableHash()[i].getValue().size() + 1) {
                     String category = movieCastMember.getTableHash()[i].getValue().get(j).getCatogory();
                     if (category.equals("actor") || category.equals("actress")) {
-                        Integer a = Integer.parseInt(movieCastMember.getTableHash()[i].getValue().get(j).getImdbName().substring(2, 9).replaceAll("^0+(?!$)", ""));
-                        castMember.get(a).getValue().setApariciones();
+                        Integer key = Integer.parseInt(movieCastMember.getTableHash()[i].getValue().get(j).getImdbName().substring(2, 9).replaceAll("^0+(?!$)", ""));
+                        castMember.get(key).getValue().setApariciones();
                     }
                     j++;
                 }
@@ -67,6 +72,11 @@ public class Consultas {
 
     public void consultaDos(HashTable<Integer,CastMember> castMember, HashTable<Integer,Lista<MovieCastMember>> movieCastMember){
         long tiempoInicial=System.currentTimeMillis();
+        for (int i=0; i<castMember.getSizeHash();i++){
+            if(castMember.getTableHash()[i] != null) {
+                castMember.getTableHash()[i].getValue().resetRecorrido();
+            }
+        }
         Lista<CauseOfDeath> causas = new ListaEnlazada<>();
         for (int i=0; i<movieCastMember.getSizeHash();i++){
             int j = 1;
@@ -137,15 +147,26 @@ public class Consultas {
 
     public void consultaTres(MyHeap<MovieRating> movieRating, HashTable<Integer, Movie> movie, HashTable<Integer, Lista<MovieCastMember>> movieCastMember, HashTable<Integer, CastMember> castMember) throws EmptyHeapException {
         long tiempoInicial = System.currentTimeMillis();
+        for (int i=0; i<movie.getSizeHash();i++){
+            if(movie.getTableHash()[i] != null) {
+                movie.getTableHash()[i].getValue().resetAlturas();
+            }
+        }
         Movie[] top = new Movie[14];
+        Lista<MovieRating> resetList = new ListaEnlazada<>();
         int i = 0;
         while (movieRating.get() != null && top[13] == null) {
-            Integer key = Integer.parseInt(movieRating.delete().getImbdTitled().substring(2, 9).replaceAll("^0+(?!$)", ""));
+            MovieRating mRating = movieRating.delete();
+            resetList.add(mRating);
+            Integer key = Integer.parseInt(mRating.getImbdTitled().substring(2, 9).replaceAll("^0+(?!$)", ""));
             Movie movietemp = movie.get(key).getValue();
             if (movietemp.getYear() <= 1960 && movietemp.getYear() >= 1950) {
                 top[i] = movietemp;
                 i++;
             }
+        }
+        for(int j=1; j<= resetList.size(); j++){
+            movieRating.insert(resetList.get(j));
         }
         for (i = 0; i < top.length; i++) {
             int movieKey = Integer.parseInt(top[i].getImdbTitled().substring(2, 9).replaceAll("^0+(?!$)", ""));
@@ -177,6 +198,11 @@ public class Consultas {
 
     public void consultaCuatro(HashTable<Integer,CastMember> castMember, HashTable<Integer,Lista<MovieCastMember>> movieCastMember) throws EmptyHeapException {
         long tiempoInicial=System.currentTimeMillis();
+        for (int i=0; i<castMember.getSizeHash();i++){
+            if(castMember.getTableHash()[i] != null) {
+                castMember.getTableHash()[i].getValue().resetCounted();
+            }
+        }
         Lista<AnoNacimientoPorCategory> anosNacimientoActors = new ListaEnlazada<>();
         Lista<AnoNacimientoPorCategory> anosNacimientoActress = new ListaEnlazada<>();
         for (int i=0; i<movieCastMember.getSizeHash();i++){
@@ -190,20 +216,15 @@ public class Consultas {
                         if (!node.getValue().isCounted() && node.getValue().getBirthYear()!=0) {
                             node.getValue().setCounted();
                             boolean entro = false;
-                            if (anosNacimientoActors.size() == 0) {
+                            for (int k = 1; k < anosNacimientoActors.size() + 1; k++) {
+                                if (node.getValue().getBirthYear() == anosNacimientoActors.get(k).getAnoNacimiento()) {
+                                    anosNacimientoActors.get(k).setCantidadPersonas();
+                                    entro = true;
+                                }
+                            }
+                            if (!entro) {
                                 AnoNacimientoPorCategory temp = new AnoNacimientoPorCategory(node.getValue().getBirthYear(), "actor");
                                 anosNacimientoActors.add(temp);
-                            } else {
-                                for (int k = 1; k < anosNacimientoActors.size() + 1; k++) {
-                                    if (node.getValue().getBirthYear() == anosNacimientoActors.get(k).getAnoNacimiento()) {
-                                        anosNacimientoActors.get(k).setCantidadPersonas();
-                                        entro = true;
-                                    }
-                                }
-                                if (!entro) {
-                                    AnoNacimientoPorCategory temp = new AnoNacimientoPorCategory(node.getValue().getBirthYear(), "actor");
-                                    anosNacimientoActors.add(temp);
-                                }
                             }
                         }
                     }else if(category.equals("actress")){
@@ -212,20 +233,15 @@ public class Consultas {
                         if(!node.getValue().isCounted() && node.getValue().getBirthYear()!=0) {
                             node.getValue().setCounted();
                             boolean entro = false;
-                            if(anosNacimientoActress.size() == 0){
+                            for (int k = 1; k < anosNacimientoActress.size() + 1; k++) {
+                                if (node.getValue().getBirthYear() == anosNacimientoActress.get(k).getAnoNacimiento()) {
+                                    anosNacimientoActress.get(k).setCantidadPersonas();
+                                    entro = true;
+                                }
+                            }
+                            if (!entro) {
                                 AnoNacimientoPorCategory temp = new AnoNacimientoPorCategory(node.getValue().getBirthYear(),"actress");
                                 anosNacimientoActress.add(temp);
-                            }else {
-                                for (int k = 1; k < anosNacimientoActress.size() + 1; k++) {
-                                    if (node.getValue().getBirthYear() == anosNacimientoActress.get(k).getAnoNacimiento()) {
-                                        anosNacimientoActress.get(k).setCantidadPersonas();
-                                        entro = true;
-                                    }
-                                }
-                                if (!entro) {
-                                    AnoNacimientoPorCategory temp = new AnoNacimientoPorCategory(node.getValue().getBirthYear(),"actress");
-                                    anosNacimientoActress.add(temp);
-                                }
                             }
                         }
                     }
@@ -233,8 +249,8 @@ public class Consultas {
                 }
             }
         }
-        MyHeap<AnoNacimientoPorCategory> anosActorsHeapMax = new MyHeapImpl<>(2027, 1);
-        MyHeap<AnoNacimientoPorCategory> anosActressHeapMax = new MyHeapImpl<>(2027, 1);
+        MyHeap<AnoNacimientoPorCategory> anosActorsHeapMax = new MyHeapImpl<>(anosNacimientoActors.size(), 1);
+        MyHeap<AnoNacimientoPorCategory> anosActressHeapMax = new MyHeapImpl<>(anosNacimientoActors.size(), 1);
         for(int i=1; i<anosNacimientoActors.size()+1;i++){
             anosActorsHeapMax.insert(anosNacimientoActors.get(i));
         }
@@ -267,7 +283,7 @@ public class Consultas {
             if(movieCastMember.getTableHash()[i]!=null) {
                 int l = 1;
                 while (!tieneMasDeDosHijos && l <= movieCastMember.getTableHash()[i].getValue().size()) {
-                    if ((movieCastMember.getTableHash()[i].getValue().get(l).getCatogory().equals("actor") || movieCastMember.getTableHash()[i].getValue().get(l).getCatogory().equals("actress")) && castMember.get(Integer.parseInt((movieCastMember.getTableHash()[i].getValue().get(l).getImdbName().substring(2, 9).replaceAll("^0+(?!$)", "")))).getValue().getChildren() >= 2) {
+                    if ((movieCastMember.getTableHash()[i].getValue().get(l).getCatogory().equals("actor") || movieCastMember.getTableHash()[i].getValue().get(l).getCatogory().equals("actress")) && castMember.get(Integer.parseInt((movieCastMember.getTableHash()[i].getValue().get(l).getImdbName().substring(2, 9)))).getValue().getChildren() >= 2) {
                         tieneMasDeDosHijos = true;
                         Lista<String> generosTemp = movie.get(Integer.parseInt((movieCastMember.getTableHash()[i].getValue().get(l).getImdbTitled().substring(2, 9)))).getValue().getGenre();
                         for (int j = 1; j < generosTemp.size() + 1; j++) {
@@ -282,7 +298,6 @@ public class Consultas {
                                 }
                                 if (!coinidencia) {
                                     Género newGenero = new Género(generosTemp.get(j));
-                                    newGenero.setCounterGenero();
                                     listaGenero.add(newGenero);
                                     coinidencia = true;
                                 }
@@ -322,7 +337,7 @@ public class Consultas {
 
         long tiempoFinal=System.currentTimeMillis();
         long tiempo=tiempoFinal-tiempoInicial;
-        System.out.println("Tiempo de ejecucion de la consulta:"+tiempo);
+        System.out.println("Tiempo de ejecucion de la consulta:"+tiempo+"ms");
         System.out.println();
     }
 

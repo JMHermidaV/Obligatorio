@@ -175,6 +175,11 @@ public class Movie {
         return alturaProm;
     }
 
+    public void resetAlturas(){
+        this.actoresConAltura = 0;
+        this.sumaAltura = 0;
+    }
+
     @Override
     public int hashCode() {
         return Integer.parseInt(this.getImdbTitled().substring(2,9).replaceAll("^0+(?!$)", ""));

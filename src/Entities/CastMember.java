@@ -105,13 +105,6 @@ public class CastMember implements Comparable<CastMember> {
         return causesOfDeath;
     }
 
-    public void setApariciones(int apariciones) {
-        this.apariciones = apariciones;
-    }
-
-    public void setRecorrido(boolean recorrido) {
-        this.recorrido = recorrido;
-    }
 
     @Override
     public int hashCode() {
@@ -136,6 +129,10 @@ public class CastMember implements Comparable<CastMember> {
         this.apariciones +=1;
     }
 
+    public void resetApariciones() {
+        this.apariciones = 0;
+    }
+
     public boolean isDead(){
         boolean r=false;
         if (this.causesOfDeath != null){
@@ -152,10 +149,16 @@ public class CastMember implements Comparable<CastMember> {
         this.recorrido = true;
     }
 
+    public void resetRecorrido() {
+        this.recorrido = false;
+    }
+
     public boolean isCounted() {
         return counted;
     }
-
+    public void resetCounted() {
+        this.counted = false;
+    }
     public void setCounted() {
         this.counted = true;
     }
