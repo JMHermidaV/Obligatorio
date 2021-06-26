@@ -90,24 +90,6 @@ public class CSVReaderInJava {
         }
         return movieCastMemberHash;
     }
-        /*File file = new File(fileName);
-        CsvReader csv = new CsvReader(file);
-        Iterator<String[]> csvIterator = csv.iterator();
-        String[] datos = csvIterator.next();
-        if(csvIterator.hasNext()){datos = csvIterator.next();}
-        while(csvIterator.hasNext()){
-            datos = csvIterator.next();
-            MovieCastMember movieCastMember = createMovieCastMember(datos);
-            if (movieCastMemberHash.get(movieCastMember.hashCode())==null){
-                Lista<MovieCastMember> listaMovieCastMembers = new ListaEnlazada<>();
-                listaMovieCastMembers.add(movieCastMember);
-                movieCastMemberHash.put(movieCastMember.hashCode(),listaMovieCastMembers);
-            }else{
-                movieCastMemberHash.get(movieCastMember.hashCode()).getValue().add(movieCastMember);
-            }
-        }
-        return movieCastMemberHash;
-    }*/
 
     private static MyHeap<MovieRating> readMovieRatingsFromCSV(String fileName){
         MyHeap<MovieRating> MovieRatingsHeapMax = new MyHeapImpl<>(85856, 1);
